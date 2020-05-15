@@ -1,0 +1,47 @@
+{
+  "name": "jsmidi",
+  "version": "0.0.1",
+  "description": "JSMidi is a library for live coding and producing music with JavaScript using a digital audio workstation like Logic Pro X, Ableton, Garage Band, etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./test --exit"
+  },
+  "author": "Aaron Strachan <aaronats@gmail.com>",
+  "homepage": "https://github.com/aaronats/jsmidi",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aaronats/jsmidi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aaronats/jsmidi/issues"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@tonaljs/modules": "^3.4.1",
+    "eventemitter2": "^6.0.0",
+    "nanotimer": "^0.3.15"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "performance-now": "^2.1.0",
+    "web-midi-api": "^2.0.7"
+  },
+  "keywords": [
+    "midi",
+    "live coding",
+    "logic pro",
+    "garage band",
+    "ableton",
+    "pro tools",
+    "sonic pi"
+  ],
+  "standard": {
+    "env": [
+      "mocha"
+    ],
+    "globals": [
+      "atom"
+    ]
+  }
+}
