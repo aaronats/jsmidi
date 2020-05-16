@@ -22,7 +22,7 @@ const MIDI_CHANNEL_EVENTS = {
 module.exports = class JSMidiEvent {
   constructor (type, channel = 0, opts = {}) {
     this.type = type;
-    this.channel = channel;
+    this.channel = Number(channel);
 
     if (!MIDI_CHANNEL_EVENTS[this.type]) {
       throw new Error(`Midi event ${this.type} is not supported.`);
