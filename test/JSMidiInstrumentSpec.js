@@ -50,6 +50,38 @@ describe('JSMidiInstrument', function () {
     });
   });
 
+  describe('pattern()', () => {
+    const drums = new JSMidiInstrument('drums');
+
+    it('should sequence a pattern starting at position', function () {
+      drums.pattern('0:0:0', 'C2', [
+        0.5, 0.5, -1, 0.5, 1
+      ]);
+
+      const expected = {
+        '0:0:0': [
+          { hold: 0.5, after: 0 },
+          { hold: 0.5, after: 0.5 }
+        ],
+        '0:0:2': [
+          { hold: 0.5, after: 0 },
+          { hold: 1, after: 0.5 }
+        ]
+      };
+
+      Object.entries(expected).forEach(([key, val]) => {
+        const events = drums.events[key];
+
+        expect(events).to.be.an('array');
+        expect(events.length).to.eq(val.length);
+        val.forEach((item, idx) => {
+          expect(events[idx].hold).to.eq(item.hold);
+          expect(events[idx].after).to.eq(item.after);
+        });
+      });
+    });
+  });
+
   describe('sequence()', () => {
     it('should queue events at the correct positions', function () {
       const piano = new JSMidiInstrument('piano');

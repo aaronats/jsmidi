@@ -82,6 +82,26 @@ module.exports = class JSMidiInstrument {
   }
 
   /**
+   * Sequences a pattern for a single note. Primarily used for
+   * making drum sequences easy. In the pattern values less than
+   * zero will be treated as a rest.
+   *
+   * @param {String} position - the form position.
+   * @param {String} note - the note to sequence
+   * @param {Array} pattern - the pattern of holds and rests.
+  */
+  pattern (position, note, pattern) {
+    const actions = pattern.map(hold => {
+      if (hold <= 0) {
+        return { pause: true, hold: Math.abs(hold) };
+      }
+      return { notes: note, hold };
+    });
+
+    this.sequence(position, actions);
+  }
+
+  /**
    * Adds an ordered sequence of events to the event queue. Each action
    * requires a hold time so it can calculate when to take the next action
    * in the sequence.
