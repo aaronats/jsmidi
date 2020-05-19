@@ -69,7 +69,7 @@ module.exports = class JSMidiForm {
    * Sets the lower bounds.
   */
   setLowerBounds () {
-    this.bounds[0] = [0, 0, 0];
+    this.bounds[0] = [1, 1, 1];
   }
 
   /**
@@ -78,11 +78,11 @@ module.exports = class JSMidiForm {
   setUpperBounds () {
     if (this.hasParts()) {
       const lp = this.getLastPart();
-      this.bounds[1] = [this.parts.length - 1, lp.bars - 1, lp.beats - 1];
+      this.bounds[1] = [this.parts.length, lp.bars, lp.beats];
       return;
     }
 
-    this.bounds[1] = [0, this.bars - 1, this.beats - 1];
+    this.bounds[1] = [1, this.bars, this.beats];
   }
 
   /**
@@ -104,13 +104,14 @@ module.exports = class JSMidiForm {
   }
 
   /**
-   * Gets a part by index.
+   * Gets a part. Since the array is zero based
+   * we subtrack one from the part requested.
    *
-   * @param {Number} idx - the part index.
+   * @param {Number} part - the part.
    * @retuns {Object}
   */
-  getPart (idx) {
-    return this.parts[Number(idx)];
+  getPart (part) {
+    return this.parts[Number(part) - 1];
   }
 
   /**

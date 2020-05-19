@@ -10,7 +10,7 @@ describe('JSMidiForm', function () {
       expect(form.beats).to.eq(16);
       expect(form.parts).to.eql([]);
       expect(form.bounds).to.eql([
-        [0, 0, 0], [0, 3, 15]
+        [1, 1, 1], [1, 4, 16]
       ]);
     });
   });
@@ -32,7 +32,7 @@ describe('JSMidiForm', function () {
       expect(form.beats).to.eq(16);
       expect(form.parts).to.eql([]);
       expect(form.bounds).to.eql([
-        [0, 0, 0], [0, 3, 15]
+        [1, 1, 1], [1, 4, 16]
       ]);
     });
   });
@@ -41,16 +41,16 @@ describe('JSMidiForm', function () {
     const form = new JSMidiForm();
 
     it('should update the bounds', function () {
-      form.updateBounds('0:0:2', '0:0:8');
+      form.updateBounds('1:1:2', '1:1:8');
 
       expect(form.bounds).to.eql([
-        [0, 0, 2], [0, 0, 8]
+        [1, 1, 2], [1, 1, 8]
       ]);
     });
 
     it('should throw for invalid bounds', function () {
       expect(() => {
-        form.updateBounds('0:4:0', '0:0:0');
+        form.updateBounds('1:5:1', '1:1:1');
       }).to.throw();
     });
   });
@@ -58,12 +58,12 @@ describe('JSMidiForm', function () {
   describe('setBounds()', () => {
     const form = new JSMidiForm();
 
-    it('should reset the bounds', function () {
-      form.updateBounds('0:0:2', '0:0:8');
+    it('should reset upper and lower bounds', function () {
+      form.updateBounds('1:1:2', '1:1:8');
       form.setBounds();
 
       expect(form.bounds).to.eql([
-        [0, 0, 0], [0, 3, 15]
+        [1, 1, 1], [1, 4, 16]
       ]);
     });
   });
@@ -74,7 +74,7 @@ describe('JSMidiForm', function () {
 
       it('should return the first position', function () {
         const pos = form.getFirstPosition();
-        expect(pos).to.eql([0, 0, 0]);
+        expect(pos).to.eql([1, 1, 1]);
       });
     });
 
@@ -88,7 +88,7 @@ describe('JSMidiForm', function () {
 
       it('should return the first position', function () {
         const pos = form.getFirstPosition();
-        expect(pos).to.eql([0, 0, 0]);
+        expect(pos).to.eql([1, 1, 1]);
       });
     });
   });
@@ -99,7 +99,7 @@ describe('JSMidiForm', function () {
 
       it('should return the last position', function () {
         const pos = form.getLastPosition();
-        expect(pos).to.eql([0, 3, 15]);
+        expect(pos).to.eql([1, 4, 16]);
       });
     });
 
@@ -113,7 +113,7 @@ describe('JSMidiForm', function () {
 
       it('should return the last position', function () {
         const pos = form.getLastPosition();
-        expect(pos).to.eql([1, 1, 7]);
+        expect(pos).to.eql([2, 2, 8]);
       });
     });
   });
@@ -124,7 +124,7 @@ describe('JSMidiForm', function () {
     // no need to call it directly since
     // it is called in the constructor.
     it('should set the bounds first position', function () {
-      expect(form.bounds[0]).to.eql([0, 0, 0]);
+      expect(form.bounds[0]).to.eql([1, 1, 1]);
     });
   });
 
@@ -134,7 +134,7 @@ describe('JSMidiForm', function () {
     // no need to call it directly since
     // it is called in the constructor.
     it('should set the bounds last position', function () {
-      expect(form.bounds[1]).to.eql([0, 3, 15]);
+      expect(form.bounds[1]).to.eql([1, 4, 16]);
     });
   });
 
@@ -146,8 +146,8 @@ describe('JSMidiForm', function () {
       ]
     });
 
-    it('should get the part at index', function () {
-      const part = form.getPart(1);
+    it('should get the part', function () {
+      const part = form.getPart(2);
       expect(part).to.eql({ bars: 2, beats: 8 });
     });
   });

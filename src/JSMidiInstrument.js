@@ -278,12 +278,12 @@ module.exports = class JSMidiInstrument {
       }
 
       beat += 1;
-      if (beat >= form.beats) {
-        beat = 0;
+      if (beat > form.beats) {
+        beat = 1;
         bar += 1;
         advance();
-        if (bar >= form.bars) {
-          bar = 0;
+        if (bar > form.bars) {
+          bar = 1;
           part += 1;
           advance();
         }

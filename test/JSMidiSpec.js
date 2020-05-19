@@ -70,11 +70,11 @@ describe('JSMidi', function () {
       drums.play('*:*:1', { notes: 'C4' });
       drums.play('*:*:4', { notes: 'C5' });
 
-      JSMidi.schedule('0:0:0', 0);
-      JSMidi.schedule('0:0:1', 0);
-      JSMidi.schedule('0:0:2', 0);
-      JSMidi.schedule('0:0:3', 0);
-      JSMidi.schedule('0:0:4', 0);
+      JSMidi.schedule('1:1:1', 0);
+      JSMidi.schedule('1:1:2', 0);
+      JSMidi.schedule('1:1:3', 0);
+      JSMidi.schedule('1:1:4', 0);
+      JSMidi.schedule('1:1:5', 0);
 
       expect(JSMidi.events['0|noteon|60']).to.eq(true);
       expect(JSMidi.events['0|noteon|72']).to.eq(true);
@@ -84,18 +84,18 @@ describe('JSMidi', function () {
       JSMidi.reset();
       JSMidi.addTrack(drums);
 
-      drums.rest('0:0:1', '0:0:3');
+      drums.rest('1:1:2', '1:1:4');
       drums.play('*:*:1', { notes: 'C4' });
       drums.play('*:*:4', { notes: 'C5' });
 
-      JSMidi.schedule('0:0:0', 0);
-      JSMidi.schedule('0:0:1', 0);
-      JSMidi.schedule('0:0:2', 0);
-      JSMidi.schedule('0:0:3', 0);
-      JSMidi.schedule('0:0:4', 0);
+      JSMidi.schedule('1:1:1', 0);
+      JSMidi.schedule('1:1:2', 0);
+      JSMidi.schedule('1:1:3', 0);
+      JSMidi.schedule('1:1:4', 0);
+      JSMidi.schedule('1:1:5', 0);
 
-      expect(JSMidi.events['0|noteon|60']).to.eq(undefined);
-      expect(JSMidi.events['0|noteon|72']).to.eq(true);
+      expect(JSMidi.events['0|noteon|60']).to.eq(true);
+      expect(JSMidi.events['0|noteon|72']).to.eq(undefined);
     });
 
     it('should ignore a muted instrument', function () {
@@ -103,14 +103,14 @@ describe('JSMidi', function () {
       JSMidi.addTrack(drums);
 
       drums.mute();
-      drums.play('*:*:0', { notes: 'C4' });
+      drums.play('*:*:1', { notes: 'C4' });
       drums.play('*:*:4', { notes: 'C5' });
 
-      JSMidi.schedule('0:0:0', 0);
-      JSMidi.schedule('0:0:1', 0);
-      JSMidi.schedule('0:0:2', 0);
-      JSMidi.schedule('0:0:3', 0);
-      JSMidi.schedule('0:0:4', 0);
+      JSMidi.schedule('1:1:1', 0);
+      JSMidi.schedule('1:1:2', 0);
+      JSMidi.schedule('1:1:3', 0);
+      JSMidi.schedule('1:1:4', 0);
+      JSMidi.schedule('1:1:5', 0);
 
       expect(JSMidi.events).to.eql({});
     });
@@ -123,11 +123,11 @@ describe('JSMidi', function () {
       JSMidi.reset();
       JSMidi.addTrack(drums);
 
-      drums.play('*:*:0', { notes: 'A4' });
-      drums.play('*:*:3', { notes: 'F5' });
+      drums.play('*:*:1', { notes: 'A4' });
+      drums.play('*:*:4', { notes: 'F5' });
 
-      JSMidi.scheduleEvent(drums.events['*:*:0'][0], 0);
-      JSMidi.scheduleEvent(drums.events['*:*:3'][0], 0);
+      JSMidi.scheduleEvent(drums.events['*:*:1'][0], 0);
+      JSMidi.scheduleEvent(drums.events['*:*:4'][0], 0);
 
       expect(JSMidi.events['0|noteon|69']).to.eq(true);
       expect(JSMidi.events['0|noteon|77']).to.eq(true);

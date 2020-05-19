@@ -31,7 +31,7 @@ module.exports = class JSMidiPosition {
     const pos = this.position.split(':');
 
     if (form.hasParts() && pos[0] === '*') {
-      pos[0] = form.parts.map((a, i) => i).join(',');
+      pos[0] = form.parts.map((a, i) => i + 1).join(',');
     }
 
     ['bars', 'beats'].forEach((name, i) => {
@@ -40,7 +40,8 @@ module.exports = class JSMidiPosition {
 
       if (item[0] === '@') {
         const nth = Number(item.split('@')[1]);
-        const arr = [...Array(part ? part[name] : form[name]).keys()];
+        const length = part ? part[name] : form[name];
+        const arr = Array(length).fill(0).map((n, i) => i + 1);
 
         if (part && part[name] === 1) {
           pos[i + 1] = 0;

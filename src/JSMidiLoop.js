@@ -33,9 +33,9 @@ module.exports = class JSMidiLoop {
     repeat = false,
     maxRestarts = 16
   } = {}) {
-    this.bar = 0;
-    this.beat = 0;
-    this.part = 0;
+    this.bar = 1;
+    this.beat = 1;
+    this.part = 1;
     this.time = 0;
     this.bpm = 120;
     this.interval = 500;
@@ -43,7 +43,7 @@ module.exports = class JSMidiLoop {
     this.playing = false;
     this.offset = 100;
     this.repeat = repeat;
-    this.position = '0:0:0';
+    this.position = '1:1:1';
     this.maxRestarts = maxRestarts;
     this.timer = new NanoTimer();
     this.form = new JSMidiForm({ parts, bars, beats });
@@ -92,12 +92,12 @@ module.exports = class JSMidiLoop {
       return;
     }
 
-    this.bar = 0;
-    this.beat = 0;
-    this.part = 0;
+    this.bar = 1;
+    this.beat = 1;
+    this.part = 1;
     this.restarts = 0;
     this.playing = false;
-    this.position = '0:0:0';
+    this.position = '1:1:1';
     this.timer.clearTimeout();
     this.events.emit('stop');
   }
@@ -107,6 +107,7 @@ module.exports = class JSMidiLoop {
    * restartPlayback in the Atom plugin.
   */
   restart () {
+    this.restarts += 1;
     this._setStartPosition();
     this._scheduleStartPosition();
     this._advance();
@@ -147,13 +148,13 @@ module.exports = class JSMidiLoop {
    * Reset the loop.
   */
   reset () {
-    this.bar = 0;
-    this.beat = 0;
-    this.part = 0;
+    this.bar = 1;
+    this.beat = 1;
+    this.part = 1;
     this.restarts = 0;
     this.playing = false;
     this.repeat = false;
-    this.position = '0:0:0';
+    this.position = '1:1:1';
     this.timer.clearTimeout();
     this.form.reset();
     this.setTempo(120);
@@ -163,15 +164,14 @@ module.exports = class JSMidiLoop {
 
   /**
    * Calculates and schedules the next position, incremets the position
-   * and advances the loop or restarts if indicated.
+   * and advances or restarts the loop.
    *
-   * @param {Boolean} [restart] - whether to restart the loop.
    * @private
   */
-  _advance (restart = false) {
+  _advance () {
     this.time += this.interval;
 
-    if (restart) {
+    if (this._shouldRestart()) {
       this._broadcastPosition();
       this.timer.setTimeout(() => {
         this.restart();
@@ -186,18 +186,13 @@ module.exports = class JSMidiLoop {
 
     this._broadcastPosition();
 
-    // Get and schedule the next position.
     const nextPosition = this._getNextPosition();
     this._schedulePosition(nextPosition, this.time);
 
-    // Advance with a restart check.
     this._incrementPosition();
     this.timer.setTimeout(() => {
       if (this.playing) {
-        // this._incrementPosition();
-        this._advance(
-          this._shouldRestart()
-        );
+        this._advance();
       }
     }, '', `${this.interval}m`);
   }
@@ -236,17 +231,17 @@ module.exports = class JSMidiLoop {
 
     if (this.form.hasParts()) {
       const part = this.form.getPart(this.part);
-      if (this.beat === part.beats) {
-        this.beat = 0;
+      if (this.beat > part.beats) {
+        this.beat = 1;
         this.bar += 1;
-        if (this.bar === part.bars) {
-          this.bar = 0;
+        if (this.bar > part.bars) {
+          this.bar = 1;
           this.part += 1;
         }
       }
     } else {
-      if (this.beat === this.form.beats) {
-        this.beat = 0;
+      if (this.beat > this.form.beats) {
+        this.beat = 1;
         if (this.form.bars) {
           this.bar += 1;
         }
@@ -296,18 +291,18 @@ module.exports = class JSMidiLoop {
 
     if (this.form.hasParts()) {
       const part = this.form.getPart(this.part);
-      if (nextBeat >= part.beats) {
-        if (nextBar >= part.bars) {
-          return `${this.part + 1}:0:0`;
+      if (nextBeat > part.beats) {
+        if (nextBar > part.bars) {
+          return `${this.part + 1}:1:1`;
         }
-        return `${this.part}:${nextBar}:0`;
+        return `${this.part}:${nextBar}:1`;
       }
     } else {
-      if (nextBeat >= this.form.beats) {
-        if (nextBar >= this.form.bars) {
-          return `${this.part}:${nextBar}:0`;
+      if (nextBeat > this.form.beats) {
+        if (nextBar > this.form.bars) {
+          return `${this.part}:${nextBar}:1`;
         }
-        return `${this.part}:${nextBar}:0`;
+        return `${this.part}:${nextBar}:1`;
       }
     }
 
@@ -329,8 +324,8 @@ module.exports = class JSMidiLoop {
       return false;
     }
 
-    if (this._isLastPosition()) {
-      this.restarts += 1;
+    const [part, bar, beat] = this.form.getLastPosition();
+    if (this.beat === beat && this.bar === bar && this.part === part) {
       return true;
     }
 
@@ -344,21 +339,11 @@ module.exports = class JSMidiLoop {
    * @private
   */
   _shouldStop () {
-    if (this.repeat && this.restarts >= this.maxRestarts) {
+    if (this.repeat === true && this.restarts >= this.maxRestarts) {
       return true;
     }
 
-    return this._isLastPosition();
-  }
-
-  /**
-   * Determines if it is the loop's last position.
-   * @private
-   *
-   * @retuns {Booolean}
-  */
-  _isLastPosition () {
-    const [part, bar, beat] = this.form.getLastPosition();
-    return this.beat === beat && this.bar === bar && this.part === part;
+    const [part, bar] = this.form.getLastPosition();
+    return this.bar > bar || this.part > part;
   }
 };
