@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { JSMidi, JSMidiInstrument } = require('../src');
+const { JSMidi, JSMidiInstrument, JSMidiAction } = require('../src');
 
 describe('JSMidiInstrument', function () {
   const { notes, chord } = JSMidi.builder;
@@ -19,10 +19,6 @@ describe('JSMidiInstrument', function () {
     const piano = new JSMidiInstrument('piano');
     piano.play('*:*:1', { notes: 'C4', velocity: 127, hold: 1 });
 
-    it('should track actions at position', function () {
-      expect(piano.tracking['*:*:1|noteon|60']).to.eq(true);
-    });
-
     it('should queue events at position', function () {
       const event = piano.events['*:*:1'][0];
 
@@ -37,10 +33,6 @@ describe('JSMidiInstrument', function () {
     const piano = new JSMidiInstrument('piano');
     piano.stop('1:1:2', notes('C4'));
 
-    it('should track actions at position', function () {
-      expect(piano.tracking['1:1:2|noteoff|60']).to.eq(true);
-    });
-
     it('should queue events at position', function () {
       const event = piano.events['1:1:2'][0];
 
@@ -50,9 +42,28 @@ describe('JSMidiInstrument', function () {
     });
   });
 
-  describe('pattern()', () => {
-    const drums = new JSMidiInstrument('drums');
+  describe('at()', () => {
+    const piano = new JSMidiInstrument('piano');
 
+    piano.at('1:1:1', [
+      notes(['C4']).h(0.5),
+      chord('C5M').h(0.5).v(120)
+    ]);
+
+    it('should schedule events at position', function () {
+      const events = piano.events['1:1:1'];
+      const notes = [[60, 98], [72, 120], [76, 120], [79, 120]];
+
+      events.forEach((event, i) => {
+        expect(event.type).to.eq('noteon');
+        expect(event.data).to.eq(notes[i][0]);
+        expect(event.velocity).to.eq(notes[i][1]);
+        expect(event.hold).to.eq(0.5);
+      });
+    });
+  });
+
+  describe('pattern()', () => {
     it('should throw if after is included in the action', function () {
       const piano = new JSMidiInstrument('piano');
 
@@ -62,9 +73,13 @@ describe('JSMidiInstrument', function () {
     });
 
     it('should sequence a pattern starting at position', function () {
+      const drums = new JSMidiInstrument('drums');
+
       drums.pattern('1:1:1', { notes: 'C2', velocity: 80 }, [
         0.5, 0.5, -1, 0.5, 1
       ]);
+
+      console.log(drums.events);
 
       const expected = {
         '1:1:1': [
@@ -79,6 +94,8 @@ describe('JSMidiInstrument', function () {
 
       Object.entries(expected).forEach(([key, val]) => {
         const events = drums.events[key];
+
+        // console.log(events);
 
         expect(events).to.be.an('array');
         expect(events.length).to.eq(val.length);
@@ -257,31 +274,32 @@ describe('JSMidiInstrument', function () {
     });
   });
 
-  describe('at()', () => {
+  describe('notesOn()', () => {
     const piano = new JSMidiInstrument('piano');
+    const action = new JSMidiAction({ notes: 'C4', hold: 1 });
+    piano.notesOn('*:*:1', action);
 
-    piano.at('1:1:1', [
-      notes(['C4']).h(0.5),
-      chord('C5M').h(0.5).v(120)
-    ]);
+    it('should queue events at position', function () {
+      const event = piano.events['*:*:1'][0];
 
-    it('should track actions at position', function () {
-      expect(piano.tracking['1:1:1|noteon|60']).to.eq(true);
-      expect(piano.tracking['1:1:1|noteon|72']).to.eq(true);
-      expect(piano.tracking['1:1:1|noteon|76']).to.eq(true);
-      expect(piano.tracking['1:1:1|noteon|79']).to.eq(true);
+      expect(event.data).to.eq(60);
+      expect(event.type).to.eq('noteon');
+      expect(event.velocity).to.eq(98);
+      expect(event.hold).to.eq(1);
     });
+  });
 
-    it('should schedule events at position', function () {
-      const events = piano.events['1:1:1'];
-      const notes = [[60, 98], [72, 120], [76, 120], [79, 120]];
+  describe('notesOff()', () => {
+    const piano = new JSMidiInstrument('piano');
+    const action = new JSMidiAction({ notes: 'C4' });
+    piano.notesOff('*:*:1', action);
 
-      events.forEach((event, i) => {
-        expect(event.type).to.eq('noteon');
-        expect(event.data).to.eq(notes[i][0]);
-        expect(event.velocity).to.eq(notes[i][1]);
-        expect(event.hold).to.eq(0.5);
-      });
+    it('should queue events at position', function () {
+      const event = piano.events['*:*:1'][0];
+
+      expect(event.data).to.eq(60);
+      expect(event.type).to.eq('noteoff');
+      expect(event.velocity).to.eq(0);
     });
   });
 

@@ -8,7 +8,6 @@ const Tonal = require('@tonaljs/modules');
  * @param {String} [type] - the action type.
  * @param {String} [chord] - the musical name of a chord.
  * @param {String|Array} [notes] - a single note or array of notes.
- * @param {Boolean} [dups] - allow duplicate actions.
  * @param {Number} [velocity] - the action's velocity.
  * @param {Number} [after] - how long to wait to execute an action.
  * @param {Number} [hold] - how long to hold an action for.
@@ -20,7 +19,6 @@ module.exports = class JSMidiAction {
       : props;
 
     Object.assign(this, {
-      dups: false,
       velocity: 98,
       after: 0,
       hold: 0
@@ -54,7 +52,6 @@ module.exports = class JSMidiAction {
    */
   getEventOptions () {
     return {
-      dups: this.dups,
       velocity: this.velocity,
       after: this.after,
       hold: this.hold

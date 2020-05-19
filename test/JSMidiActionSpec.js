@@ -8,7 +8,6 @@ describe('JSMidiAction', function () {
         notes: 'C4', hold: 1
       });
 
-      expect(action.dups).to.eq(false);
       expect(action.notes).to.eq('C4');
       expect(action.chord).to.eq(undefined);
       expect(action.velocity).to.eq(98);
@@ -22,7 +21,6 @@ describe('JSMidiAction', function () {
         chord('C4M').h(0.5).a(0.5)
       );
 
-      expect(action.dups).to.eq(false);
       expect(action.chord).to.eq('C4M');
       expect(action.velocity).to.eq(98);
       expect(action.hold).to.eq(0.5);
@@ -43,7 +41,7 @@ describe('JSMidiAction', function () {
       const action = new JSMidiAction({ notes: 'C4', hold: 1 });
 
       expect(action.getEventOptions()).to.eql({
-        velocity: 98, hold: 1, after: 0, dups: false
+        velocity: 98, hold: 1, after: 0
       });
     });
   });

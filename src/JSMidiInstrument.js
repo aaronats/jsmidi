@@ -37,11 +37,7 @@ module.exports = class JSMidiInstrument {
   */
   play (position, props) {
     const action = new JSMidiAction(props);
-    const opts = action.getEventOptions();
-
-    action.getNotes().forEach(note => {
-      this.noteOn(position, note, opts);
-    });
+    this.notesOn(position, action);
   }
 
   /**
@@ -52,11 +48,7 @@ module.exports = class JSMidiInstrument {
   */
   stop (position, props) {
     const action = new JSMidiAction(props);
-    const opts = action.getEventOptions();
-
-    action.getNotes().forEach(note => {
-      this.noteOff(position, note, opts);
-    });
+    this.notesOff(position, action);
   }
 
   /**
@@ -71,7 +63,7 @@ module.exports = class JSMidiInstrument {
       const action = new JSMidiAction(props);
 
       if (action.notes || action.chord) {
-        this.play(position, action);
+        this.notesOn(position, action);
       }
 
       if (action.sustain) {
@@ -152,12 +144,11 @@ module.exports = class JSMidiInstrument {
               }
             }
 
-            // Update the after and allow duplicates.
-            Object.assign(action, { after, dups: true });
+            Object.assign(action, { after });
 
             // Only send notes on.
             if (action.notes || action.chord) {
-              this.play(`${part}:${bar}:${Math.floor(beat)}`, action);
+              this.notesOn(`${part}:${bar}:${Math.floor(beat)}`, action);
             }
 
             previous = action;
@@ -182,7 +173,7 @@ module.exports = class JSMidiInstrument {
       data, velocity, after, hold
     });
 
-    this._stageEvent(position, event, opts.dups);
+    this._stageEvent(position, event);
   }
 
   /**
@@ -230,6 +221,32 @@ module.exports = class JSMidiInstrument {
     });
 
     this._stageEvent(position, event);
+  }
+
+  /**
+   * Adds "noteon" events for an action.
+   *
+   * @param {String} position - the form position.
+   * @param {JSMidiAction} action - the action.
+  */
+  notesOn (position, action) {
+    const opts = action.getEventOptions();
+    action.getNotes().forEach(note => {
+      this.noteOn(position, note, opts);
+    });
+  }
+
+  /**
+   * Adds "noteoff" events for an action.
+   *
+   * @param {String} position - the form position.
+   * @param {JSMidiAction} action - the action.
+  */
+  notesOff (position, action) {
+    const opts = action.getEventOptions();
+    action.getNotes().forEach(note => {
+      this.noteOff(position, note, opts);
+    });
   }
 
   /**
@@ -346,26 +363,19 @@ module.exports = class JSMidiInstrument {
    *
    * @param {String} position - the form position.
    * @param {JSMidiEvent} event - the midi event.
-   * @param {Boolean} [dups] - whether to allow duplicate notes.
    * @private
   */
-  _stageEvent (position, event, dups = false) {
+  _stageEvent (position, event) {
     const { parts, bars, beats } = new JSMidiPosition(position);
     parts.split(',').forEach(part => {
       bars.split(',').forEach(bar => {
         beats.split(',').forEach(beat => {
           const pos = `${part}:${bar}:${beat}`;
 
-          // Ignore conflicting or duplicate events.
-          const pk = event.positionKey(pos);
-          if (!this.tracking[pk] || dups) {
-            this.tracking[pk] = true;
-
-            if (this.events[pos]) {
-              this.events[pos].push(event);
-            } else {
-              this.events[pos] = [event];
-            }
+          if (this.events[pos]) {
+            this.events[pos].push(event);
+          } else {
+            this.events[pos] = [event];
           }
         });
       });

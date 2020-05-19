@@ -12,7 +12,6 @@ class JSMidiActionBuilder {
     this.h = this.hold;
     this.a = this.after;
     this.v = this.velocity;
-    this.d = this.dups;
   }
 
   /**
@@ -45,16 +44,6 @@ class JSMidiActionBuilder {
   */
   velocity (velocity) {
     Object.assign(this.action, { velocity });
-    return this;
-  }
-
-  /**
-   * Allow duplicate notes.
-   *
-   * @returns {JSMidiBuilder}
-  */
-  dups () {
-    Object.assign(this.action, { dups: true });
     return this;
   }
 }
