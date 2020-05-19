@@ -53,8 +53,16 @@ describe('JSMidiInstrument', function () {
   describe('pattern()', () => {
     const drums = new JSMidiInstrument('drums');
 
+    it('should throw if after is included in the action', function () {
+      const piano = new JSMidiInstrument('piano');
+
+      expect(() => {
+        piano.pattern('1:1:1', { notes: 'C2', after: 0.5 }, [0.5, 0.5]);
+      }).to.throw();
+    });
+
     it('should sequence a pattern starting at position', function () {
-      drums.pattern('1:1:1', 'C2', [
+      drums.pattern('1:1:1', { notes: 'C2', velocity: 80 }, [
         0.5, 0.5, -1, 0.5, 1
       ]);
 
@@ -77,12 +85,24 @@ describe('JSMidiInstrument', function () {
         val.forEach((item, idx) => {
           expect(events[idx].hold).to.eq(item.hold);
           expect(events[idx].after).to.eq(item.after);
+          expect(events[idx].velocity).to.eq(80);
         });
       });
     });
   });
 
   describe('sequence()', () => {
+    it('should throw if wildcard geven for beat', function () {
+      const piano = new JSMidiInstrument('piano');
+
+      expect(() => {
+        piano.sequence('*:*:*', [
+          { notes: 'C4', hold: 1 },
+          { notes: 'C5', hold: 1 }
+        ]);
+      }).to.throw();
+    });
+
     it('should queue events at the correct positions', function () {
       const piano = new JSMidiInstrument('piano');
 

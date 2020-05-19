@@ -89,13 +89,19 @@ module.exports = class JSMidiInstrument {
    * @param {String} position - the form position.
    * @param {String} note - the note to sequence
    * @param {Array} pattern - the pattern of holds and rests.
+   *
+   * @throws Error After not allowed in pattern.
   */
-  pattern (position, note, pattern) {
+  pattern (position, action, pattern) {
+    if (action.after !== undefined) {
+      throw new Error('After not allowed in pattern.');
+    }
+
     const actions = pattern.map(hold => {
       if (hold <= 0) {
         return { pause: true, hold: Math.abs(hold) };
       }
-      return { notes: note, hold };
+      return Object.assign({ hold }, action);
     });
 
     this.sequence(position, actions);
