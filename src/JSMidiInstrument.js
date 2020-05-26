@@ -91,7 +91,7 @@ module.exports = class JSMidiInstrument {
 
     const actions = pattern.map(hold => {
       if (hold <= 0) {
-        return { pause: true, hold: Math.abs(hold) };
+        return { rest: true, hold: Math.abs(hold) };
       }
       return Object.assign({ hold }, action);
     });

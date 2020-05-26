@@ -79,8 +79,6 @@ describe('JSMidiInstrument', function () {
         0.5, 0.5, -1, 0.5, 1
       ]);
 
-      console.log(drums.events);
-
       const expected = {
         '1:1:1': [
           { hold: 0.5, after: 0 },
@@ -94,8 +92,6 @@ describe('JSMidiInstrument', function () {
 
       Object.entries(expected).forEach(([key, val]) => {
         const events = drums.events[key];
-
-        // console.log(events);
 
         expect(events).to.be.an('array');
         expect(events.length).to.eq(val.length);

@@ -57,8 +57,8 @@ module.exports = {
     return new JSMidiActionBuilder({ chord });
   },
 
-  pause: (hold) => {
-    return new JSMidiActionBuilder({ pause: true, hold });
+  rest: (hold) => {
+    return new JSMidiActionBuilder({ rest: true, hold });
   },
 
   sustain: (hold) => {
