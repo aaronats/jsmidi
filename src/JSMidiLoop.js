@@ -139,7 +139,7 @@ module.exports = class JSMidiLoop {
    * @param {String} start - the start position.
    * @param {String} end - the end position.
   */
-  repeatSection (start, end) {
+  focus (start, end) {
     this.form.updateBounds(start, end);
     this.enableRepeat();
   }

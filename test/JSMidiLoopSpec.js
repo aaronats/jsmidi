@@ -147,10 +147,10 @@ describe('JSMidiLoop', function () {
     });
   });
 
-  describe('repeatSection()', () => {
+  describe('focus()', () => {
     before(() => {
       loop.update({ bars: 1, beats: 4 });
-      loop.repeatSection('1:1:1', '1:1:3');
+      loop.focus('1:1:1', '1:1:3');
     });
 
     after(() => {
@@ -408,7 +408,7 @@ describe('JSMidiLoop', function () {
       });
 
       it('should return true at the section end position', function () {
-        loop.repeatSection('1:1:1', '1:1:4');
+        loop.focus('1:1:1', '1:1:4');
         [loop.bar, loop.beat] = [1, 4];
         const res = loop._shouldRestart();
 
@@ -441,7 +441,7 @@ describe('JSMidiLoop', function () {
       });
 
       it('should return true at the section end position', function () {
-        loop.repeatSection('1:1:1', '1:1:4');
+        loop.focus('1:1:1', '1:1:4');
         [loop.part, loop.bar, loop.beat] = [1, 1, 4];
         const res = loop._shouldRestart();
 
