@@ -62,8 +62,10 @@ module.exports = class JSMidiPosition {
    */
   _every (nth, arr) {
     // if nth is 1, get every odd value
-    return arr.filter(i => {
-      return nth === 1 ? i % 2 === 1 : i % nth === 0;
-    }).join(',');
+    if (nth === 1) {
+      return arr.filter(i => { return i % 2 === 1; }).join(',');
+    }
+
+    return arr.filter(i => { return i % nth === 0; }).join(',');
   }
 };
