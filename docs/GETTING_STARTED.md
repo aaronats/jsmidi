@@ -94,4 +94,4 @@ Please checkout the [UI Cheatsheet](https://github.com/aaronats/jsmidi-atom) and
 [read the overview docs](https://github.com/aaronats/jsmidi#jsmidi-overview) for
 more information on the loop, instruments, tracks and configuration.
 
-<img src="docs/assets/jsmidi-atom.png" alt="jsmidi-atom" />
+<img src="assets/jsmidi-atom.png" alt="jsmidi-atom" />
