@@ -16,15 +16,15 @@ Garage Band.
 First, we need to enable the IAC Driver in the Audio MIDI Setup Utility (Open Spotlight
 and search for Audio MIDI Setup).
 
-<img src="assets/audio-midi-setup.png" width="400" alt="midi-setup" /><br />
+<img src="assets/audio-midi-setup.png" width="400" alt="midi-setup" />
 
 Next double-click the IAC Driver icon to open the properties window.
 
-<img src="assets/iac-icon.png" width="400" alt="midi-setup" /><br />
+<img src="assets/iac-icon.png" width="400" alt="midi-setup" />
 
 Finally make sure the option "Device is online" is checked in order to activate it.
 
-<img src="assets/iac-bus-setup.png" width="400" alt="iac-bus-setup" /><br />
+<img src="assets/iac-bus-setup.png" width="400" alt="iac-bus-setup" />
 
 ### STEP 2: Atom Setup
 
@@ -33,7 +33,7 @@ If you don't have Atom installed, you can download and install it [here](https:/
 Open Atom and navigate to ``Atom->Preferences`` and click on the Install link at the bottom of
 the left menu. Search for "jsmidi-atom" in the search bar and install the package.
 
-<img src="assets/jsmidi-plugin-install.png" alt="midi-setup" /><br />
+<img src="assets/jsmidi-plugin-install.png" alt="midi-setup" />
 
 ### STEP 3: JSMidi CLI
 
@@ -69,14 +69,13 @@ Open Logic Pro X and create a new project `File->New`. Leave the default
 but are limited to one MIDI track.
 
 <img src="assets/new-logic-project.png" width="400" alt="new-logic-project" />
-<br />
+
 
 Once you have your new project created. You can select any of the installed software
 instruments available in the instrument library. The default is the Classic Electric
 Piano.
 
 <img src="assets/logic-project.png" alt="logic-project" />
-<br />
 
 #### STEP 6: Start Coding!
 
