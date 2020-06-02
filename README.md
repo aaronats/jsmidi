@@ -1,8 +1,8 @@
-<img src="docs/assets/jsmidi-logo-black.svg" height="80" width="100%" align="center" alt="jsmidi-logo" />
+<img src="docs/assets/jsmidi-logo-black.svg" height="90" width="100%" align="center" alt="jsmidi-logo" />
 
 
 <div align="center">
-  <h2>Produce Music with JavaScript</h2>
+  <h3>Produce Music with JavaScript</h3>
   <div><i>**Currently In Beta**</i></div>
   <br />
   <p>
