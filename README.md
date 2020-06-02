@@ -108,7 +108,7 @@ const { JSMidi } = require('jsmidi');
 class Live {
   static reload() {
     JSMidi.resetTracks();
-    JSMidi.setTempo(120);
+    JSMidi.loop.setTempo(120);
 
     const { piano } = JSMidi.tracks;
 
@@ -192,7 +192,7 @@ We use __beats per minute (bpm)__ to set the tempo. The default is 120 bpm.
 
 ```javascript
 // Set the tempo to 110 bpm.
-JSMidi.setTempo(110);
+JSMidi.loop.setTempo(110);
 ```
 
 #### Focus
