@@ -11,35 +11,31 @@ Garage Band.
 4. [JSMidi Atom Package](https://atom.io/packages/jsmidi-atom).
 5. [JSMidi CLI](https://github.com/aaronats/jsmidi-cli).
 
-##### STEP 1: Audio MIDI Setup
+### STEP 1: Audio MIDI Setup
 
 First, we need to enable the IAC Driver in the Audio MIDI Setup Utility (Open Spotlight
 and search for Audio MIDI Setup).
 
-<img src="assets/audio-midi-setup.png" width="400" alt="midi-setup" />
-<br /><br />
+<img src="assets/audio-midi-setup.png" width="400" alt="midi-setup" /><br />
 
 Next double-click the IAC Driver icon to open the properties window.
 
-<img src="assets/iac-icon.png" width="400" alt="midi-setup" />
-<br /><br />
+<img src="assets/iac-icon.png" width="400" alt="midi-setup" /><br />
 
 Finally make sure the option "Device is online" is checked in order to activate it.
 
-<img src="assets/iac-bus-setup.png" width="400" alt="iac-bus-setup" />
-<br /><br />
+<img src="assets/iac-bus-setup.png" width="400" alt="iac-bus-setup" /><br />
 
-#### STEP 2: Atom Setup
+### STEP 2: Atom Setup
 
 If you don't have Atom installed, you can download and install it [here](https://atom.io).
 
 Open Atom and navigate to ``Atom->Preferences`` and click on the Install link at the bottom of
 the left menu. Search for "jsmidi-atom" in the search bar and install the package.
 
-<img src="assets/jsmidi-plugin-install.png" alt="midi-setup" />
-<br /><br />
+<img src="assets/jsmidi-plugin-install.png" alt="midi-setup" /><br />
 
-#### STEP 3: JSMidi CLI
+### STEP 3: JSMidi CLI
 
 First, make sure you have Node JS and NPM installed. If you do not have Node and NPM
 the easiest way is to install them both is with [Homebrew](https://brew.sh/).
@@ -50,7 +46,7 @@ Next, to install the `jsmidi-cli` run the following command.
 $ npm install -g jsmidi-cli
 ```
 
-#### STEP 4: Creating A New JSMidi Project
+### STEP 4: Creating A New JSMidi Project
 
 Once the `jsmidi-cli` is installed, navigate to the directory where you would like to create
 your project and run the following commands. Where "myproject" is whatever name you
@@ -73,14 +69,14 @@ Open Logic Pro X and create a new project `File->New`. Leave the default
 but are limited to one MIDI track.
 
 <img src="assets/new-logic-project.png" width="400" alt="new-logic-project" />
-<br /><br />
+<br />
 
 Once you have your new project created. You can select any of the installed software
 instruments available in the instrument library. The default is the Classic Electric
 Piano.
 
 <img src="assets/logic-project.png" alt="logic-project" />
-<br /><br />
+<br />
 
 #### STEP 6: Start Coding!
 
@@ -98,4 +94,4 @@ That's it! You should be ready to start coding. Press the play button in the con
 at the top of the JSMidi tab and you should hear note C4 played on every beat.
 
 For more information on the loop, instruments, tracks and configuration please
-[read the overview docs](https://github.com/aaronats/jsmidi)!
+[read the overview docs](https://github.com/aaronats/jsmidi#jsmidi-overview)!

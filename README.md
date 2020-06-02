@@ -1,4 +1,4 @@
-<img src="docs/assets/jsmidi-logo.svg" height="80" width="100%" align="center" alt="jsmidi-logo" />
+<img src="docs/assets/jsmidi-logo-black.svg" height="80" width="100%" align="center" alt="jsmidi-logo" />
 
 
 <div align="center">
@@ -7,10 +7,12 @@
   <br />
   <p>
     JSMidi is a music production tool that works directly with your Digital Audio
-    Workstation (DAW) via MIDI. Together with the JSMidi Atom Plugin you can live code and build
-    songs in JavaScript right inside the <a href="https://atom.io">Atom Text Editor</a>.
-    JSMidi uses the <a href="https://www.w3.org/TR/webmidi/">Web MIDI API</a> built into
-    the browser to control up to 16 MIDI tracks in real time.
+    Workstation (DAW) via MIDI. Together with the
+    <a href="https://github.com/aaronats/jsmidi-atom">JSMidi Atom Plugin</a>
+    you can live code and build songs in JavaScript right inside the
+    <a href="https://atom.io">Atom Text Editor</a>. JSMidi uses the
+    <a href="https://www.w3.org/TR/webmidi/">Web MIDI API</a> built into the
+    browser to control up to 16 MIDI tracks in real time.
   </p>
   <br />
   <img src="docs/assets/jsmidi-atom.png" alt="jsmidi-atom" />
@@ -117,10 +119,10 @@ class Live {
 return Live;
 ```
 
-Each time the file is saved JSMidi it will rebuild it and your changes will be reflected on
+Each time the file is saved JSMidi will rebuild it and your changes will be reflected on
 the next beat unless there are errors. If you started with clean source JSMidi will fall
 back to that without skipping a beat. The above will play note C4 on every first beat and
-hold that note for 1/2 a note.
+hold it for 1/2 a note.
 
 
 ## JSMidi <a name="jsmidi"></a>
@@ -140,7 +142,7 @@ pattern or sequence at any position in the loop.
 A position in JSMidi is expressed as a __part__, __bar__ and __beat__. `1:1:1`, for example,
 is the first position in the loop. When the loop playback is started we simply increment the
 position. So the next positions in the loop are `1:1:2`, `1:1:3`, `1:1:4`, etc. based on the
-loop's form/structure. How fast the loop increments is determined by the tempo.
+loop's form/structure. How fast the loop increments is determined by the [tempo](#tempo).
 
 NOTE: Positions are one-based meaning that they begin at 1 instead of 0. In programming
 of course we are used to things being zero-based. Since a real drummer is not going to count
@@ -184,7 +186,7 @@ The above sets up a more structured form with different parts broken down into b
 and beats. This is used to build out a full song as opposed to just looping over the
 same sequence.
 
-#### Setting Tempo
+#### Setting Tempo <a name="tempo"></a>
 
 We use __beats per minute (bpm)__ to set the tempo. The default is 120 bpm.
 
@@ -213,7 +215,7 @@ JSMidi Instruments are how we "play" software instruments or samples in our DAW.
 
 We can define software instruments in our `Project.js` file and assign them to specific
 MIDI channels. When we create instruments we need to add those instruments as tracks
-to JSMidi so we can "play" them in our `Live.js` file.
+to JSMidi so we can play them in our `Live.js` file.
 
 NOTE: Channels are zero-based in JSMidi. In most DAWs MIDI channels are one-based so
 here 0 is the first MIDI channel.
@@ -233,7 +235,7 @@ JSMidi.addTrack(synth);
 #### Playing Notes
 
 Once we have our instruments defined we can play those instruments in our `Live.js`
-file. Playing a singe note or series of notes is very easy using the `play` function.
+file. Playing a single note or series of notes is very easy using the `play` function.
 
 ```javascript
 // Play C4 at the first position and hold it for a 1/2 note.
@@ -244,8 +246,9 @@ The first argument is our __position__ and the second is our __action__.
 
 #### Position Syntax
 
-When we instruct an instument to take an action we pass it the position(s) in the loop
-where we want to take the action(s). We can pass in a single position like `1:1:1` or `2:1:2`.
+When we instruct an instrument to take an action we pass it the position(s) in the loop
+where we want to take the action(s). We can pass in a single position as a string like
+`1:1:1` or `2:1:2`.
 
 We can also pass wildcards with the `*` symbol. This means "every". So `*:*:*` means on
 __every__ part, bar and beat (meaning every position). `1:*:1` means the first part, __every__
@@ -273,7 +276,7 @@ Here are the available actions and their options:
 
 __ACTIONS:__
 
-- `notes`: A single note or an array of notes.
+- __notes:__ A single note or an array of notes.
   ```javascript
   // as an object
   { notes: 'C4' } // or
@@ -283,7 +286,7 @@ __ACTIONS:__
   notes('C4') // or
   notes(['C4', 'G4'])
   ```
-- `chord`: The [TonalJS](https://github.com/tonaljs/tonal) chord name.
+- __chord:__ The [TonalJS](https://github.com/tonaljs/tonal) chord name.
   ```javascript
   // as an object
   { chord: 'A4m' }
@@ -294,7 +297,7 @@ __ACTIONS:__
 
 __OPTIONS:__
 
-- `velocity`: The MIDI velocity.
+- __velocity:__ The MIDI velocity.
   ```javascript
   // as an object
   { notes: 'C4', velocity: 100 }
@@ -303,7 +306,7 @@ __OPTIONS:__
   notes('C4').v(100); // short
   notes('C4').velocity(100); // long
   ```
-- `hold`: How long to hold a note(s) or a rest.
+- __hold:__ How long to hold a note(s) or a rest.
   ```javascript
   // as an object
   { notes: 'C4', hold: 0.5 }
@@ -312,7 +315,7 @@ __OPTIONS:__
   notes('C4').h(0.5); // short
   notes('C4').hold(0.5); // long
   ```
-- `after`: How long to wait before triggering an aciton.
+- __after:__ How long to wait before triggering an aciton.
   ```javascript
   // as an object
   { notes: 'C4', after: 0.5 }
@@ -406,7 +409,7 @@ synth.sequence('1:1:1', [
   { chord: 'A4M', hold: 1 },
 ]);
 
-// Again we can use builder functions to indicate the same action.
+// Again we can use builder functions to indicate the same sequence.
 synth.sequence('1:1:1', [
   notes(['C3', 'E4']).h(1), rest(1), chord('A4M').h(1)
 ]);
@@ -458,18 +461,18 @@ and feedback from the community. The following is my current feature roadmap:
 
 1. Single and multiple note rests for more controlled drops.
 2. Map control change MIDI messages to DAW controls and save those mappings. For example,
-   in Logic Pro when you assign a knob on your MIDI keyboard (the "learn" feature) to a
-   control in the UI it uses simple control change messsages just like a sustain. I would
-   like to build virtual control boards for synths, effects, mixing, etc.
+   in Logic Pro when you assign a knob on your MIDI keyboard to a control in the UI
+   (the "learn" feature) it uses simple control change messsages just like a sustain.
+   I would like to build virtual control boards for synths, effects, mixing, etc.
+3. Port the Atom Plugin to VSCode.
 
 ## Background & Inspiration <a name="background"></a>
 
 JSMidi was inspired by the incredible [Sam Aaron](https://github.com/samaaron) and
-[Sonic Pi](https://sonic-pi.net/). For years, I have played with Sonic Pi and
-have really enjoyed making music with it. Coming from more of a music production
-perspective I hit limitations trying to build songs along side a DAW with Sonic Pi.
-At the end of the day, if you are producing music you are using Logic, Ableton, Pro Tools
-or another perfessional DAW.
+[Sonic Pi](https://sonic-pi.net/). For years, I have played with Sonic Pi and have
+really enjoyed it. Coming from more of a music production perspective I hit some limitations
+trying to build songs along side a DAW with Sonic Pi. At the end of the day, if you are
+producing music you are using Logic, Ableton, Pro Tools or another perfessional DAW.
 
 When COVID-19 hit and with quarantine in full effect, I had some serious time to throw
 at an idea that has been floating around my head for a couple of years. My goals were as
@@ -477,8 +480,7 @@ follows:
 
 1. Let DAW's do what they do best. No need to build oscillators, synths, etc.
 2. Leverage MIDI and the Web MIDI API to handle all communication with the DAW.
-3. Uncouple the editor from the application. Leverage a state of the art and open
-source text editor. Atom (VSCode comming soon) to the rescue.
+3. Uncouple the editor from the application. Atom (VSCode comming soon) to the rescue.
 4. Do it all in JavaScript and make it extremely easy to learn and use.
 
 Also, thanks to [TonalJS](https://github.com/tonaljs/tonal) for making chords so easy
