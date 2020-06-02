@@ -1,6 +1,6 @@
 {
   "name": "jsmidi",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "JSMidi is a library for live coding and producing music with JavaScript using a digital audio workstation like Logic Pro X, Ableton, Garage Band, etc.",
   "main": "index.js",
   "scripts": {
@@ -8,10 +8,7 @@
   },
   "author": "Aaron Strachan <aaronats@gmail.com>",
   "homepage": "https://github.com/aaronats/jsmidi",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/aaronats/jsmidi.git"
-  },
+  "repository": "https://github.com/aaronats/jsmidi",
   "bugs": {
     "url": "https://github.com/aaronats/jsmidi/issues"
   },
