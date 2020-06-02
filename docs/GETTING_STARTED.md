@@ -40,15 +40,15 @@ the left menu. Search for "jsmidi-atom" in the search bar and install the packag
 First, make sure you have Node JS and NPM installed. If you do not have Node and NPM
 the easiest way is to install them both is with [Homebrew](https://brew.sh/).
 
-Next, to install the `jsmidi-cli` run the following command.
+Next, to install the `@jsmidi/cli` run the following command.
 
 ```
-$ npm install -g jsmidi-cli
+$ npm install -g @jsmidi/cli
 ```
 
 ### STEP 4: Creating A New JSMidi Project
 
-Once the `jsmidi-cli` is installed, navigate to the directory where you would like to create
+Once the `@jsmidi/cli` is installed, navigate to the directory where you would like to create
 your project and run the following commands. Where "myproject" is whatever name you
 would like to call your project.
 

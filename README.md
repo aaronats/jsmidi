@@ -42,7 +42,7 @@ correct DAW and system MIDI configurations.
 ## Getting Started <a name="getting-started"></a>
 
 The easiest way to get started is to use the
-[jsmidi-cli](https://github.com/aaronats/jsmidi-cli) to build your fist project. There
+[@jsmidi/cli](https://github.com/aaronats/jsmidi-cli) to build your fist project. There
 are a few things you will need to install and configure before you can start coding so
 please follow the [Getting Started Guide](docs/GETTING_STARTED.md).
 
@@ -66,7 +66,7 @@ component. The most important parts of a JSMidi Project are the `Project.js` and
 files. This is where you will spend the majority of your time when building songs.
 
 NOTE: It is __highly recommended__ to use the
-[jsmidi-cli](https://github.com/aaronats/jsmidi-cli) to create a new project. Please
+[@jsmidi/cli](https://github.com/aaronats/jsmidi-cli) to create a new project. Please
 read the documentation there to get a full grasp of the project structure.
 
 #### Project.js
