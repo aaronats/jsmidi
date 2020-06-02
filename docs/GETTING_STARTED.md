@@ -83,8 +83,6 @@ Finally, open Atom and then open the folder of the new project you created in St
 In the bottom right corner of Atom you will see the JSMidi logo which will toggle the
 plugin. Click that and it should open the side bar, your project file and the live file.
 
-Please checkout the [UI Cheatsheet](https://github.com/aaronats/jsmidi-atom) for the plugin.
-
 In the logs pannel you should see that the Web MIDI API, Project and Live files all
 loaded successfully. In the settings section you should also see that the output is
 set to: `Apple Inc. - IAC Driver Bus 1`.
@@ -92,5 +90,8 @@ set to: `Apple Inc. - IAC Driver Bus 1`.
 That's it! You should be ready to start coding. Press the play button in the control bar
 at the top of the JSMidi tab and you should hear note C4 played on every beat.
 
-For more information on the loop, instruments, tracks and configuration please
-[read the overview docs](https://github.com/aaronats/jsmidi#jsmidi-overview)!
+Please checkout the [UI Cheatsheet](https://github.com/aaronats/jsmidi-atom) and
+[read the overview docs](https://github.com/aaronats/jsmidi#jsmidi-overview) for
+more information on the loop, instruments, tracks and configuration.
+
+<img src="docs/assets/jsmidi-atom.png" alt="jsmidi-atom" />
