@@ -75,7 +75,7 @@ describe('JSMidiInstrument', function () {
     it('should sequence a pattern starting at position', function () {
       const drums = new JSMidiInstrument('drums');
 
-      drums.pattern('1:1:1', { notes: 'C2', velocity: 80 }, [
+      drums.pattern('1:1:1', notes('C2').v(80), [
         0.5, 0.5, -1, 0.5, 1
       ]);
 

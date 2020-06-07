@@ -85,7 +85,9 @@ module.exports = class JSMidiInstrument {
    *
    * @throws Error After not allowed in pattern.
   */
-  pattern (position, action, pattern) {
+  pattern (position, props, pattern) {
+    const action = props.action ? props.action : props;
+
     if (action.after !== undefined) {
       throw new Error('After not allowed in pattern.');
     }
