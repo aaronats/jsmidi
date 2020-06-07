@@ -6,24 +6,24 @@ const JSMidiForm = require('./JSMidiForm');
  * JSMidiLoop is the musical time keeper and scheduler. The loop
  * is broken down by position into parts, bars and beats based on the
  * JSMidiForm. It works its way through the each position scheduling future
- * midi events at each next position in the loop.
+ * MIDI events at each next position in the loop.
  *
- * @param {Number} [bars] - the number of bars.
- * @param {Number} [beats] - the number of beats.
- * @param {Array} [parts] - an array of parts made of bars and beats.
- * @param {Boolean} [repeat] - whether to start over at the end of the loop.
- * @param {Number} [offset] - number of miliseconds to wait before starting the loop.
- * @param {Number} [maxRestarts] - max number of restarts allowed.
+ * @param {Number} [bars] - number of bars
+ * @param {Number} [beats] - number of beats
+ * @param {Array} [parts] - an array of parts made of bars and beats
+ * @param {Boolean} [repeat] - whether to start over at the end of the loop
+ * @param {Number} [offset] - number of miliseconds to wait before starting the loop
+ * @param {Number} [maxRestarts] - max number of restarts allowed
  *
- * @property {Number} bar - the current bar.
- * @property {Number} beat - the current beat.
- * @property {Number} part - the current part.
- * @property {String} position - the current position.
- * @property {Boolean} playing - if the loop is "playing" or not.
- * @property {Number} restarts - number of times the loop has restarted.
- * @property {JSMidiForm} form - the musical form of the loop/project.
- * @property {NanoTimer} timer - used for setting timeouts.
- * @property {EventEmitter2} events - used for emitting events.
+ * @property {Number} bar - current bar
+ * @property {Number} beat - current beat
+ * @property {Number} part - current part
+ * @property {String} position - current position
+ * @property {Boolean} playing - if the loop is "playing" or not
+ * @property {Number} restarts - number of times the loop has restarted
+ * @property {JSMidiForm} form - musical form of the loop/song
+ * @property {NanoTimer} timer - used for setting timeouts
+ * @property {EventEmitter2} events - used for emitting events
 */
 module.exports = class JSMidiLoop {
   constructor ({
@@ -53,7 +53,7 @@ module.exports = class JSMidiLoop {
   /**
    * Updates the loop's options and form.
    *
-   * @param {Number} [time] - the WebMidi performance time.
+   * @param {Number} [time] - window's performance time
   */
   update ({
     bars, beats, parts,
@@ -62,13 +62,13 @@ module.exports = class JSMidiLoop {
   } = {}) {
     this.repeat = repeat;
     this.maxRestarts = maxRestarts;
-    this.form.reset({ bars, beats, parts });
+    this.form.update({ bars, beats, parts });
   }
 
   /**
-   * Starts the loop at the WebMidi performance time.
+   * Starts the loop at the window's performance time.
    *
-   * @param {Number} [time] - the WebMidi performance time.
+   * @param {Number} [time] - window's performance time
   */
   start (time = 0) {
     if (this.playing === true) {
@@ -84,8 +84,8 @@ module.exports = class JSMidiLoop {
   }
 
   /**
-   * Stops the loop, sends off messages for any open notes
-   * or sustains on each track and clears the timer.
+   * Stops the loop, sends off messages for any open notes or sustains on
+   * each track and clears the timer.
   */
   stop () {
     if (this.playing === false) {
@@ -103,8 +103,8 @@ module.exports = class JSMidiLoop {
   }
 
   /**
-   * Restarts the loop. Note that this is not the same as
-   * restartPlayback in the Atom plugin.
+   * Restarts the loop. Note that this is not the same as restartPlayback in
+   * the Atom plugin.
   */
   restart () {
     this.restarts += 1;
@@ -119,25 +119,25 @@ module.exports = class JSMidiLoop {
   }
 
   /**
-   * Turn repeat on.
+   * Turns repeat on.
   */
   enableRepeat () {
     this.repeat = true;
   }
 
   /**
-   * Turn repeat off.
+   * Turns repeat off.
   */
   disableRepeat () {
     this.repeat = false;
   }
 
   /**
-   * Repeat section tells the loop to focus on a specific section
-   * of the loop by start and end position based on the form.
+   * Repeat section tells the loop to focus on a specific section of the loop
+   * by start and end position based on the form.
    *
-   * @param {String} start - the start position.
-   * @param {String} end - the end position.
+   * @param {String} start - start position
+   * @param {String} end - end position
   */
   focus (start, end) {
     this.form.updateBounds(start, end);
@@ -145,7 +145,7 @@ module.exports = class JSMidiLoop {
   }
 
   /**
-   * Reset the loop.
+   * Resets the loop.
   */
   reset () {
     this.bar = 1;
@@ -163,8 +163,8 @@ module.exports = class JSMidiLoop {
   // PRIVATE --------------------------------------------------------
 
   /**
-   * Calculates and schedules the next position, incremets the position
-   * and advances or restarts the loop.
+   * Calculates and schedules the next position, incremets the position and
+   * advances or restarts the loop.
    *
    * @private
   */
@@ -221,8 +221,7 @@ module.exports = class JSMidiLoop {
   }
 
   /**
-   * Increments the position by beat, bar and part and sets
-   * the current position.
+   * Increments the position by beat, bar and part and sets the current position.
    *
    * @private
   */
@@ -263,6 +262,8 @@ module.exports = class JSMidiLoop {
   /**
    * Broadcasts the current position to listeners.
    *
+   * @param {String} position - loop position
+   * @param {Number} time - performance time
    * @private
   */
   _schedulePosition (position, time) {

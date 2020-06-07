@@ -1,6 +1,4 @@
-/**
- * Supported midi events and their corresponding codes.
-*/
+// Supported MIDI events and their corresponding codes.
 const MIDI_CHANNEL_EVENTS = {
   noteon: 144,
   noteoff: 128,
@@ -9,15 +7,16 @@ const MIDI_CHANNEL_EVENTS = {
 };
 
 /**
- * JSMidiEvent is a Midi event, like "noteon", with additional
- * values like hold and after that affect timing.
+ * JSMidiEvent represents MIDI event, like "noteon", with additional values like hold
+ * and after that affect timing.
  *
- * @param {String} type - the type of midi event.
- * @param {Number} channel - the midi channel.
- * @param {Number} data - the midi data value.
- * @param {Number} [velocity] - the midi event velocity.
- * @param {Number} [after] - how long to wait before executing the event.
- * @param {Number} [hold] - how long to hold the event.
+ * @param {String} type - type of MIDI event
+ * @param {Number} channel - MIDI channel
+ * @param {Number} opts - options object
+ * @param {Number} opts.data - MIDI data value
+ * @param {Number} [opts.velocity] - MIDI event velocity value
+ * @param {Number} [opts.after] - how long to wait before executing the event
+ * @param {Number} [opts.hold] - how long to hold the event
 */
 module.exports = class JSMidiEvent {
   constructor (type, channel = 0, opts = {}) {
@@ -37,9 +36,9 @@ module.exports = class JSMidiEvent {
   }
 
   /**
-   * Returns a Midi message in Web Midi API send format.
+   * Returns a MIDI message in Web Midi API send format.
    *
-   * @retuns {Array} - Web Midi API send formated message.
+   * @retuns {Array}
   */
   message () {
     const event = MIDI_CHANNEL_EVENTS[this.type] + this.channel;
@@ -79,8 +78,7 @@ module.exports = class JSMidiEvent {
   }
 
   /**
-   * Calculates in miliseconds how long to wait before
-   * sending the event.
+   * Calculates in miliseconds how long to wait before sending the event.
    *
    * @param {JSMidiLoop} loop
    * @retuns {Number}
@@ -123,9 +121,8 @@ module.exports = class JSMidiEvent {
   }
 
   /**
-   * Builds a string key based on the channel, type and
-   * data properties for tracking if an event is already
-   * on or off.
+   * Builds a string key based on the channel, type and data properties for
+   * tracking if an event is already on or off.
    *
    * @retuns {String}
   */
@@ -146,9 +143,9 @@ module.exports = class JSMidiEvent {
   }
 
   /**
-   * Builds a string key based on a position, type and
-   * data properties for tracking if an event has already
-   * been added to the  JSMidiInstrument events object.
+   * Builds a string key based on a position, type and data properties for
+   * tracking if an event has already been added to the JSMidiInstrument
+   * events object.
    *
    * @retuns {String}
   */

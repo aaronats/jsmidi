@@ -5,16 +5,17 @@ const JSMidiPosition = require('./JSMidiPosition');
 const JSMidi = require('./JSMidi');
 
 /**
- * JSMidiInstrument is how we define and interact with virtual instruments
- * in Logic Pro, Ableton, Garage Band, etc.
+ * JSMidiInstrument is how we define and interact with virtual instruments in Logic
+ * Pro, Ableton, Garage Band, etc.
  *
- * @param {String} name - the name of the instrument.
- * @param {Number} [channel] - the midi channel of the instrument.
- * @param {Boolean} [muted] - the instrument's muted state.
+ * @param {String} name - name of the instrument
+ * @param {Object} opts - options object
+ * @param {Number} [opts.channel] - MIDI channel of the instrument
+ * @param {Boolean} [opts.muted] - instrument's muted state.
  *
- * @property {Object} events - midi events by position.
- * @property {Object} tracking - event tracking by position.
- * @property {Object} rests - positions where there instrument should rest.
+ * @property {Object} events - MIDI events by position
+ * @property {Object} tracking - event tracking by position
+ * @property {Object} rests - positions where the instrument should rest
 */
 module.exports = class JSMidiInstrument {
   constructor (name, opts = {}) {
@@ -32,8 +33,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Play any number of notes at position.
    *
-   * @param {String} position - the form position.
-   * @param {JSMidiBuilder|Object} props - action properties.
+   * @param {String} position - loop position
+   * @param {JSMidiBuilder|Object} props - action properties
   */
   play (position, props) {
     const action = new JSMidiAction(props);
@@ -43,8 +44,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Stop any number of notes at position.
    *
-   * @param {String} position - the form position.
-   * @param {JSMidiBuilder|Object} props - action properties.
+   * @param {String} position - loop position
+   * @param {JSMidiBuilder|Object} props - action properties
   */
   stop (position, props) {
     const action = new JSMidiAction(props);
@@ -52,11 +53,11 @@ module.exports = class JSMidiInstrument {
   }
 
   /**
-   * Take any number of actions at position. When live coding
-   * it is less verbose than play for multiple actions.
+   * Take any number of actions at position. When live coding it is less verbose
+   * than play for multiple actions.
    *
-   * @param {String} position - the form position.
-   * @param {Array} actions - an array of action properties.
+   * @param {String} position - loop position
+   * @param {Array} actions - an array of actions
   */
   at (position, actions) {
     actions.forEach(props => {
@@ -74,13 +75,13 @@ module.exports = class JSMidiInstrument {
   }
 
   /**
-   * Sequences a pattern for a single note. Primarily used for
-   * making drum sequences easy. In the pattern values less than
-   * zero will be treated as a rest.
+   * Sequences a pattern for a single note. Primarily used for making drum
+   * sequences easy. In the pattern values less than zero will be treated
+   * as a rest.
    *
-   * @param {String} position - the form position.
-   * @param {String} note - the note to sequence
-   * @param {Array} pattern - the pattern of holds and rests.
+   * @param {String} position - loop position
+   * @param {JSMidiBuilder|Object} props - action properties
+   * @param {Array} pattern - pattern of holds and rests
    *
    * @throws Error After not allowed in pattern.
   */
@@ -104,8 +105,8 @@ module.exports = class JSMidiInstrument {
    * requires a hold time so it can calculate when to take the next action
    * in the sequence.
    *
-   * @param {String} position - the form position.
-   * @param {Array} actions - an array of action properties.
+   * @param {String} position - loop position
+   * @param {Array} actions - an array of actions
    *
    * @throws Error 'Wildcard "*" not allowed for beats in sequence.'
   */
@@ -161,9 +162,9 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds a midi "noteon" event to the events object.
    *
-   * @param {String} position - the form position.
-   * @param {String} note - the name of the note.
-   * @param {Object} options - the event options.
+   * @param {String} position - loop position
+   * @param {String} note - name of the note
+   * @param {Object} options - event options
   */
   noteOn (position, note, opts = {}) {
     const data = Tonal.Midi.toMidi(note);
@@ -179,9 +180,9 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds a midi "noteoff" event to the events object.
    *
-   * @param {String} position - the form position.
-   * @param {String} note - the name of the note.
-   * @param {Object} options - the event options.
+   * @param {String} position - loop position
+   * @param {String} note - name of the note
+   * @param {Object} options - event options
   */
   noteOff (position, note, opts = {}) {
     const data = Tonal.Midi.toMidi(note);
@@ -196,8 +197,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds a midi "sustainon" event to the events object.
    *
-   * @param {String} position - the form position.
-   * @param {Object} options - the event options.
+   * @param {String} position - loop position
+   * @param {Object} options - event options
   */
   sustainOn (position, opts) {
     const { hold, after } = opts;
@@ -212,8 +213,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds a midi "sustainoff" event to the events object.
    *
-   * @param {String} position - the form position.
-   * @param {Object} options - the event options.
+   * @param {String} position - loop position
+   * @param {Object} options - event options
   */
   sustainOff (position, opts = {}) {
     const event = new JSMidiEvent('sustainoff', this.channel, {
@@ -226,8 +227,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds "noteon" events for an action.
    *
-   * @param {String} position - the form position.
-   * @param {JSMidiAction} action - the action.
+   * @param {String} position - loop position
+   * @param {JSMidiAction} action - action object
   */
   notesOn (position, action) {
     const opts = action.getEventOptions();
@@ -239,8 +240,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds "noteoff" events for an action.
    *
-   * @param {String} position - the form position.
-   * @param {JSMidiAction} action - the action.
+   * @param {String} position - loop position
+   * @param {JSMidiAction} action - action object
   */
   notesOff (position, action) {
     const opts = action.getEventOptions();
@@ -252,8 +253,8 @@ module.exports = class JSMidiInstrument {
   /**
    * Adds rest positions within the provided range.
    *
-   * @param {String} start - the start position
-   * @param {String} end - the end position
+   * @param {String} start - start position
+   * @param {String} end - end position
    *
    * @throws Error 'Invalid starting position: <<start>>.'
    * @throws Error 'Invalid ending position: <<end>>.'
@@ -321,7 +322,7 @@ module.exports = class JSMidiInstrument {
   /**
    * Determines if the instrument should rest at position.
    *
-   * @param {String} position - the form position.
+   * @param {String} position - loop position
    * @returns {Boolean}
   */
   shouldRest (position) {
@@ -343,9 +344,9 @@ module.exports = class JSMidiInstrument {
   }
 
   /**
-   * Resets the instrument to its inital state. When live coding,
-   * if changes are made to the Live file we need to reset the
-   * events and tracking so changes are reflected.
+   * Resets the instrument to its inital state. When live coding, if changes
+   * are made to the Live file we need to reset the events and tracking so
+   * changes are reflected.
   */
   reset () {
     this.muted = false;
@@ -357,12 +358,12 @@ module.exports = class JSMidiInstrument {
   // PRIVATE --------------------------------------------------------
 
   /**
-   * Stages an event in the events object and tracks those events
-   * by position. If an event has already been added or duplicates
-   * are not allowed (default) we ignore the event.
+   * Stages an event in the events object and tracks those events by position.
+   * If an event has already been added or duplicates are not allowed (default)
+   * we ignore the event.
    *
-   * @param {String} position - the form position.
-   * @param {JSMidiEvent} event - the midi event.
+   * @param {String} position - loop position
+   * @param {JSMidiEvent} event - MIDI event
    * @private
   */
   _stageEvent (position, event) {

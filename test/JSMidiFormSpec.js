@@ -15,15 +15,19 @@ describe('JSMidiForm', function () {
     });
   });
 
-  describe('reset()', () => {
+  describe('update()', () => {
     const form = new JSMidiForm();
 
     it('should update the form', function () {
-      form.reset({ bars: 1, beats: 4 });
+      form.update({ bars: 1, beats: 4 });
 
       expect(form.bars).to.eq(1);
       expect(form.beats).to.eq(4);
     });
+  });
+
+  describe('reset()', () => {
+    const form = new JSMidiForm({ bars: 1, beats: 4 });
 
     it('should reset the form', function () {
       form.reset();
@@ -55,12 +59,12 @@ describe('JSMidiForm', function () {
     });
   });
 
-  describe('setBounds()', () => {
+  describe('_setBounds()', () => {
     const form = new JSMidiForm();
 
     it('should reset upper and lower bounds', function () {
       form.updateBounds('1:1:2', '1:1:8');
-      form.setBounds();
+      form._setBounds();
 
       expect(form.bounds).to.eql([
         [1, 1, 1], [1, 4, 16]
@@ -118,7 +122,7 @@ describe('JSMidiForm', function () {
     });
   });
 
-  describe('setLowerBounds()', () => {
+  describe('_setLowerBounds()', () => {
     const form = new JSMidiForm();
 
     // no need to call it directly since
@@ -128,7 +132,7 @@ describe('JSMidiForm', function () {
     });
   });
 
-  describe('setUpperBounds()', () => {
+  describe('_setUpperBounds()', () => {
     const form = new JSMidiForm();
 
     // no need to call it directly since

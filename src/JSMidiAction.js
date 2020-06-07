@@ -1,19 +1,20 @@
 const Tonal = require('@tonaljs/modules');
 
 /**
- * JSMidiAction is a class to describe instrumental midid actions
- * like playing a chord, playing a series of notes or putting the
- * sustain on.
+ * JSMidiAction is a class to describe instrumental actions like playing a chord,
+ * playing a series of notes or putting the sustain on. It accepts a plain
+ * object or a builder object with the action property set.
  *
- * @param {String} [type] - the action type.
- * @param {String} [chord] - the musical name of a chord.
- * @param {String|Array} [notes] - a single note or array of notes.
- * @param {Number} [velocity] - the action's velocity.
- * @param {Number} [after] - how long to wait to execute an action.
- * @param {Number} [hold] - how long to hold an action for.
+ * @param {Object|JSMidiBuilder} [props] - action
+ * @param {String} [props.type] - action type
+ * @param {String} [props.chord] - TonalJS chord name
+ * @param {String|Array} [props.notes] - a single note or array of notes
+ * @param {Number} [props.velocity] - action's velocity
+ * @param {Number} [props.after] - how long to wait to execute an action
+ * @param {Number} [props.hold] - how long to hold an action
 */
 module.exports = class JSMidiAction {
-  constructor (props = {}) {
+  constructor (props) {
     const action = props.action
       ? props.action
       : props;
@@ -26,10 +27,9 @@ module.exports = class JSMidiAction {
   }
 
   /**
-   * Gets an array of notes or an empty array
-   * based on the action's type.
+   * Gets an array of notes or an empty array based on the action's type.
    *
-   * @returns {Array} - an array of notes.
+   * @returns {Array} - an array of notes
    */
   getNotes () {
     const { notes, chord } = this;
@@ -48,7 +48,7 @@ module.exports = class JSMidiAction {
   /**
    * Gets an action's event options.
    *
-   * @returns {Object} - an event options object.
+   * @returns {Object} - an event options object
    */
   getEventOptions () {
     return {

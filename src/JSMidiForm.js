@@ -1,13 +1,12 @@
 /**
- * JSMidiForm represents the musical form of a song or project.
- * The musical form is broken down into parts, bars and beats which
- * determines the path of the loop.
+ * JSMidiForm represents the musical form or structure of a song. The musical form
+ * is broken down into parts, bars and beats which determines the path of the loop.
  *
- * @param {Number} [bars] - the number of bars.
- * @param {Number} [beats] - the number of beats.
- * @param {Array} [parts] - an array of parts made of bars and beats.
+ * @param {Number} [bars] - number of bars
+ * @param {Number} [beats] - number of beats
+ * @param {Array} [parts] - array of parts made of bars and beats
  *
- * @property {Array} bounds - the upper and lower bounds of the form.
+ * @property {Array} bounds - upper and lower bounds of the form
 */
 module.exports = class JSMidiForm {
   constructor ({
@@ -20,13 +19,18 @@ module.exports = class JSMidiForm {
     this.parts = parts;
     this.bounds = [];
 
-    this.setBounds();
+    this._setBounds();
   }
 
   /**
-   * Reset/update the form and reset the bounds.
+   * Update the form and set the bounds.
+   *
+   * @param {Object} opts
+   * @param {Number} opts.bars - number of bars
+   * @param {Number} opts.beats - number of beats
+   * @param {Array} opts.parts - array of parts
   */
-  reset ({
+  update ({
     bars = 4,
     beats = 16,
     parts = []
@@ -34,15 +38,25 @@ module.exports = class JSMidiForm {
     this.bars = bars;
     this.beats = beats;
     this.parts = parts;
-    this.setBounds();
+    this._setBounds();
   }
 
   /**
-   * Updates the upper and lower bounds. Used to focus/repeat
-   * a section of the loop.
+   * Reset the form and reset the bounds.
+  */
+  reset () {
+    this.bars = 4;
+    this.beats = 16;
+    this.parts = [];
+    this._setBounds();
+  }
+
+  /**
+   * Updates the upper and lower bounds. Used to focus/repeat a section of
+   * the loop.
    *
-   * @param {String} start - the start position (lower bounds).
-   * @param {String} end - the end position (upper bounds).
+   * @param {String} start - start position (lower bounds)
+   * @param {String} end - end position (upper bounds)
    *
    * @throws Error 'Invalid bounds: <<start>> - <<end>>'
   */
@@ -55,34 +69,6 @@ module.exports = class JSMidiForm {
     }
 
     this.bounds = [sp, ep];
-  }
-
-  /**
-   * Sets the upper and lower bounds.
-  */
-  setBounds () {
-    this.setLowerBounds();
-    this.setUpperBounds();
-  }
-
-  /**
-   * Sets the lower bounds.
-  */
-  setLowerBounds () {
-    this.bounds[0] = [1, 1, 1];
-  }
-
-  /**
-   * Sets the upper bounds.
-  */
-  setUpperBounds () {
-    if (this.hasParts()) {
-      const lp = this.getLastPart();
-      this.bounds[1] = [this.parts.length, lp.bars, lp.beats];
-      return;
-    }
-
-    this.bounds[1] = [1, this.bars, this.beats];
   }
 
   /**
@@ -104,10 +90,10 @@ module.exports = class JSMidiForm {
   }
 
   /**
-   * Gets a part. Since the array is zero based
-   * we subtrack one from the part requested.
+   * Gets a part. Since the array is zero based we subtrack one from the
+   * part requested.
    *
-   * @param {Number} part - the part.
+   * @param {Number} part - part number
    * @retuns {Object}
   */
   getPart (part) {
@@ -134,11 +120,46 @@ module.exports = class JSMidiForm {
 
   /**
    * Determines if the loop has parts or not.
-   * @private
    *
    * @retuns {Booolean}
   */
   hasParts () {
     return this.parts.length > 0;
+  }
+
+  // PRIVATE --------------------------------------------------------
+
+  /**
+   * Sets the upper and lower bounds.
+   *
+   * @private
+  */
+  _setBounds () {
+    this._setLowerBounds();
+    this._setUpperBounds();
+  }
+
+  /**
+   * Sets the lower bounds.
+   *
+   * @private
+  */
+  _setLowerBounds () {
+    this.bounds[0] = [1, 1, 1];
+  }
+
+  /**
+   * Sets the upper bounds.
+   *
+   * @private
+  */
+  _setUpperBounds () {
+    if (this.hasParts()) {
+      const lp = this.getLastPart();
+      this.bounds[1] = [this.parts.length, lp.bars, lp.beats];
+      return;
+    }
+
+    this.bounds[1] = [1, this.bars, this.beats];
   }
 };

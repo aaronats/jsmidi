@@ -1,10 +1,13 @@
 /**
- * JSMidiIO is the main midi I/O controller. It is esentially
- * a wrapper for WebMidi.
+ * JSMidiIO is the main midi I/O controller. It is esentially a wrapper for the
+ * Web MIDI API.
  *
- * @property {Object} webmidi - the WebMidi instance.
- * @property {Object} output - the selected webmidi output.
- * @property {Object} input - the selected webmidi input.
+ * @property {Array} inputs - array of available inputs
+ * @property {Array} outputs - array of available outputs
+ * @property {Object} midi - Web MIDI API instance
+ * @property {Object} time - window's performance time object
+ * @property {Object} output - selected Web MIDI output
+ * @property {Object} input - selected Web MIDI input
 */
 module.exports = class JSMidiIO {
   constructor () {
@@ -18,11 +21,11 @@ module.exports = class JSMidiIO {
   }
 
   /**
-   * Sets up the Web Midi API, performance time and sets
-   * the default input and output.
+   * Sets up the Web Midi API, performance time and sets the default input
+   * and output.
    *
-   * @param {Object} midi - the Web Midi API instance.
-   * @param {Object} time - the window's performance time object.
+   * @param {Object} midi - Web Midi API instance
+   * @param {Object} time - window's performance time object
    */
   setup (midi, time) {
     if (!midi) {
@@ -36,9 +39,9 @@ module.exports = class JSMidiIO {
   }
 
   /**
-   * Set the Midi input from the available WebMidi inputs.
+   * Set the Midi input from the available Web MIDI inputs.
    *
-   * @param {Number} [idx] - index of the WebMidi input desired.
+   * @param {Number} [idx] - index of the Web MIDI desired input
    */
   setInput (idx = 0) {
     this.inputs = Array.from(this.midi.inputs.values());
@@ -51,9 +54,9 @@ module.exports = class JSMidiIO {
   }
 
   /**
-   * Set the Midi output from the available WebMidi outputs.
+   * Set the Midi output from the available Web MIDI outputs.
    *
-   * @param {Number} [idx] - index of the WebMidi output desired.
+   * @param {Number} [idx] - index of the Web MIDI desired output
    */
   setOutput (idx = 0) {
     this.outputs = Array.from(this.midi.outputs.values());
@@ -66,9 +69,8 @@ module.exports = class JSMidiIO {
   }
 
   /**
-   * Returns the window's performance time. Used for accurately
-   * scheduling events. Zero can be used for testing when
-   * performance time is not available.
+   * Returns the window's performance time. Used for accurately * scheduling
+   * events. Zero can be used for testing when performance time is not available.
    *
    * @returns {Number}
    */

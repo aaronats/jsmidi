@@ -5,7 +5,8 @@ const JSMidi = require('./JSMidi');
  * JSMidi. It also initializes WebMidi passed from the JSMidi Atom Plugin
  * and the Atom browser.
  *
- * @param {WebMidi} webmidi - the Atom browser's WebMidi class.
+ * @param {Object} midi - Web MIDI API instance
+ * @param {Object} time - window's performance time
 */
 module.exports = class JSMidiProject {
   constructor (midi, time) {

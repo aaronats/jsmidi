@@ -5,14 +5,14 @@ const JSMidiBuilder = require('./JSMidiBuilder');
 
 /**
  * JSMidi is a singleton class that provides the shared state and interface
- * we need to schedule midi events, manage tracks, control the loop and set
- * musical form/timing.
+ * we need to schedule MIDI events, manage tracks, control the loop and set
+ * musical form/structure.
  *
- * @property {Object} tracks - object to store instruments by name.
- * @property {Object} events - midi event tracking object.
- * @property {JSMidiIO} io - midi I/O controller via WebMidi.
- * @property {JSMidiLoop} loop - the main and only loop.
- * @property {JSMidiBuilder} builder - action builder.
+ * @property {Object} tracks - object to store instruments by name
+ * @property {Object} events - MIDI event tracking object
+ * @property {JSMidiIO} io - MIDI I/O controller via Web Midi API
+ * @property {JSMidiLoop} loop - main loop
+ * @property {JSMidiBuilder} builder - action builder
  * @namespace JSMidi
  *
 */
@@ -24,36 +24,22 @@ class JSMidi {
     this.loop = new JSMidiLoop();
     this.builder = JSMidiBuilder;
 
-    this.addEventListeners();
+    this._addEventListeners();
   }
 
   /**
    * Sets up the Web Midi API and the performance time once it is available
-   * and enabled from the Atom browser.
+   * and enabled from the Atom browser via the JSMidi Atom Plugin.
    *
-   * @param {Object} midi - the Web Midi API instance.
-   * @param {Object} time - the browser's performance time.
+   * @param {Object} midi - Web Midi API instance
+   * @param {Object} time - window's performance time object
    */
   setup (midi, time) {
     this.io.setup(midi, time);
   }
 
   /**
-   * Adds event listeners for position scheduling and loop
-   * stop events.
-   */
-  addEventListeners () {
-    this.loop.events.on('schedule-position', (position, time) => {
-      this.schedule(position, time);
-    });
-
-    this.loop.events.on('stop', () => {
-      this.allOff();
-    });
-  }
-
-  /**
-   * Adds a JSMidiInstrument to the tracks object by name.
+   * Adds a JSMidiInstrument to the tracks object by name
    *
    * @param {JSMidiInstrument} instrument
    */
@@ -62,7 +48,7 @@ class JSMidi {
   }
 
   /**
-   * Removes a JSMidiInstrument from the tracks object by name.
+   * Removes a JSMidiInstrument from the tracks object by name
    *
    * @param {JSMidiInstrument} instrument
    */
@@ -71,7 +57,9 @@ class JSMidi {
   }
 
   /**
-   * Resets each instrument by track.
+   * Resets each instrument in the tracks object. This is required when
+   * live coding. We need to reset each instrument before we rebuild its
+   * events.
    */
   resetTracks () {
     Object.entries(this.tracks).forEach(([name, instrument]) => {
@@ -80,15 +68,15 @@ class JSMidi {
   }
 
   /**
-   * Schedule midi events by position at performance time.
+   * Schedule MIDI events by position at performance time.
    *
-   * @param {String} position - the form position.
-   * @param {Number} time - performance time to execute the event.
+   * @param {String} position - loop position to schedule event(s)
+   * @param {Number} time - performance time to execute event(s)
    */
   schedule (position, time) {
     const [part, bar, beat] = position.split(':');
 
-    // all possible positions
+    // All possible positions.
     const positions = [
       '*:*:*',
       `${part}:*:*`,
@@ -119,8 +107,9 @@ class JSMidi {
   }
 
   /**
-   * Schedule off messages for any outstanding notes
-   * or sustains in the scheduled events object.
+   * Schedule off messages for any outstanding notes or
+   * sustains in the scheduled events object. This is called
+   * when the loop stops.
    */
   allOff () {
     Object.keys(this.events).forEach(key => {
@@ -141,8 +130,8 @@ class JSMidi {
   }
 
   /**
-   * Send off messages for all notes and sustains for
-   * each instrument.
+   * Send off messages for all notes and sustains for each
+   * instrument/track.
    *
    * TODO: need to test this!
    */
@@ -150,14 +139,14 @@ class JSMidi {
     Object.entries(this.tracks).forEach(([name, instrument]) => {
       const notes = new Array(109 - 36).fill().map((d, i) => i + 36);
 
-      // notes off
+      // Notes off.
       notes.forEach(note => {
         this.scheduleEvent(
           new JSMidiEvent('noteoff', instrument.channel, { data: note })
         );
       });
 
-      // sustain off
+      // Sustain off.
       this.scheduleEvent(
         new JSMidiEvent('sustainoff', instrument.channel, { data: 64 })
       );
@@ -179,10 +168,10 @@ class JSMidi {
   }
 
   /**
-   * Schedule an individual midi event at time.
+   * Schedule an individual MIDI event at time.
    *
-   * @param {JSMidiEvent} event - an event object.
-   * @param {Number} [time] - performance time.
+   * @param {JSMidiEvent} event - event object
+   * @param {Number} [time] - performance time to execute the event
    */
   scheduleEvent (event, time = 0) {
     const key = event.trackingKey();
@@ -212,6 +201,21 @@ class JSMidi {
       const hold = event.calculateHold(this.loop);
       this.scheduleEvent(event.offEvent(), time + after + hold);
     }
+  }
+
+  // PRIVATE --------------------------------------------------------
+
+  /**
+   * Adds event listeners for position scheduling and loop stop events.
+   */
+  _addEventListeners () {
+    this.loop.events.on('schedule-position', (position, time) => {
+      this.schedule(position, time);
+    });
+
+    this.loop.events.on('stop', () => {
+      this.allOff();
+    });
   }
 }
 

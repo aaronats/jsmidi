@@ -1,14 +1,14 @@
 const JSMidi = require('./JSMidi');
 
 /**
- * JSMidiPosition is a class to expand a position's bars
- * and beats. Parts are not expanded.
+ * JSMidiPosition is a class to expand a position's bars and beats. Parts are
+ * not expanded since most songs will not have a ton of parts.
  *
- * @param {String} position - the position.
+ * @param {String} position - loop position
  *
- * @property {String} bars - expanded bars.
- * @property {String} beats - expanded beats.
- * @property {String} parts - parts as is.
+ * @property {String} bars - expanded bars
+ * @property {String} beats - expanded beats
+ * @property {String} parts - parts as is
 */
 module.exports = class JSMidiPosition {
   constructor (position) {
@@ -20,6 +20,8 @@ module.exports = class JSMidiPosition {
 
     this._expand();
   }
+
+  // PRIVATE --------------------------------------------------------
 
   /**
    * Parses and expands the position into parts, bars and beats.
