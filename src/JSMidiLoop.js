@@ -345,6 +345,11 @@ module.exports = class JSMidiLoop {
     }
 
     const [part, bar] = this.form.getLastPosition();
-    return this.bar > bar || this.part > part;
+
+    if (this.form.hasParts()) {
+      return this.part > part;
+    }
+
+    return this.bar > bar;
   }
 };

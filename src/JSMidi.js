@@ -39,7 +39,7 @@ class JSMidi {
   }
 
   /**
-   * Adds a JSMidiInstrument to the tracks object by name
+   * Adds a single JSMidiInstrument to the tracks object by name.
    *
    * @param {JSMidiInstrument} instrument
    */
@@ -48,7 +48,18 @@ class JSMidi {
   }
 
   /**
-   * Removes a JSMidiInstrument from the tracks object by name
+   * Adds an array of JSMidiInstruments to the tracks object by name.
+   *
+   * @param {Array} instruments
+   */
+  addTracks (instruments) {
+    instruments.forEach((instrument) => {
+      this.addTrack(instrument);
+    });
+  }
+
+  /**
+   * Removes a JSMidiInstrument from the tracks object by name.
    *
    * @param {JSMidiInstrument} instrument
    */
