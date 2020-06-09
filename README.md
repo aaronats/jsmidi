@@ -27,11 +27,12 @@
   2. [JSMidi](#jsmidi)
   3. [JSMidi Loop](#jsmidi-loop)
   5. [JSMidi Instrument](#jsmidi-instrument)
-4. [Logic Pro X: Multitrack & Recording](docs/LOGIC.md)
-5. [API Documentation](#api-documentation)
-6. [Features Roadmap](#roadmap)
-7. [Background and Inspiration](#background)
-8. [Contributing](#contributing)
+4. [JSMidi Examples](#examples)
+5. [Logic Pro X: Multitrack & Recording](docs/LOGIC.md)
+6. [API Documentation](#api-documentation)
+7. [Features Roadmap](#roadmap)
+8. [Background and Inspiration](#background)
+9. [Contributing](#contributing)
 
 ## Beta Release Notes <a name="beta-release"></a>
 
@@ -453,6 +454,11 @@ the entire instrument for more controlled drops.
 
 Please see the [API Documentation](https://jsmidi.dev/docs) for the library's full
 documentation.
+
+## JSMidi Examples <a name="examples"></a>
+
+I have put together a couple of example projects which you can clone and play with.
+Check them out here: [jsmidi-examples](https://github.com/aaronats/jsmidi-examples).
 
 ## Features Roadmap <a name="roadmap"></a>
 
