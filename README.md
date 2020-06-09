@@ -27,9 +27,11 @@
   2. [JSMidi](#jsmidi)
   3. [JSMidi Loop](#jsmidi-loop)
   5. [JSMidi Instrument](#jsmidi-instrument)
-4. [API Documentation](#api-documentation)
-5. [Features Roadmap](#roadmap)
-6. [Background and Inspiration](#background)
+4. [Logic Pro X: Multitrack & Recording](docs/LOGIC.md)
+5. [API Documentation](#api-documentation)
+6. [Features Roadmap](#roadmap)
+7. [Background and Inspiration](#background)
+8. [Contributing](#contributing)
 
 ## Beta Release Notes <a name="beta-release"></a>
 
@@ -485,3 +487,10 @@ follows:
 
 Also, thanks to [TonalJS](https://github.com/tonaljs/tonal) for making chords so easy
 to work with!
+
+## Contributing <a name="contributing"></a>
+
+Thank you for your interest and I welcome/need your help! It is just me right now and
+I am starting a new job so my time will be limited but I will do my best to review
+pull requests, help with bugs and answer questions as we get a more solid guidline
+together.
