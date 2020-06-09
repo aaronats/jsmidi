@@ -2,7 +2,7 @@
 
 
 <div align="center">
-  <h3>Produce Music with JavaScript</h3>
+  <h3>Make Music with JavaScript</h3>
   <div><i>**Currently In Beta**</i></div>
   <br />
   <p>
