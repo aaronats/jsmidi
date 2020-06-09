@@ -88,7 +88,7 @@ class Project extends JSMidiProject {
 
     const piano = new JSMidiInstrument('piano');
 
-    JSMidi.addTrack(piano);
+    JSMidi.addTracks([piano]);
   }
 }
 
@@ -114,7 +114,8 @@ class Live {
 
     const { piano } = JSMidi.tracks;
 
-    piano.play('*:*:1', { notes: 'C4', hold: 0.5 });
+    piano.play('*:*:*', { notes: ['C2', 'E2'], hold: 0.5 });
+    piano.play('*:*:1,5', { chord: 'C4m', hold: 2 });
   }
 }
 
@@ -123,8 +124,7 @@ return Live;
 
 Each time the file is saved JSMidi will rebuild it and your changes will be reflected on
 the next beat unless there are errors. If you started with clean source JSMidi will fall
-back to that without skipping a beat. The above will play note C4 on every first beat and
-hold it for 1/2 a note.
+back to that without skipping a beat.
 
 
 ## JSMidi <a name="jsmidi"></a>
@@ -134,8 +134,8 @@ schedule MIDI events, manage tracks and control the loop.
 
 ## JSMidi Loop <a name="jsmidi-loop"></a>
 
-At the core of JSMidi is the the JSMidi Loop. It is the master time keeper that controls
-the tempo and form or structure of a song. Loops are position based. It is how we define
+At the core of JSMidi is the the JSMidiLoop. It is the master time keeper that controls
+the tempo and form or structure of a song. Loops are __position__ based. It is how we define
 the form of our songs and also how we schedule instrument actions like playing a note, chord,
 pattern or sequence at any position in the loop.
 
@@ -229,9 +229,7 @@ const bass = new JSMidiInstrument('bass', { channel: 1 });
 const synth = new JSMidiInstrument('synth', { channel: 2 });
 
 // Add to JSMidi tracks.
-JSMidi.addTrack(drums);
-JSMidi.addTrack(bass);
-JSMidi.addTrack(synth);
+JSMidi.addTracks([drums, bass, synth]);
 ```
 
 #### Playing Notes
