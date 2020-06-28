@@ -3,7 +3,6 @@
 
 <div align="center">
   <h3>Make Music with JavaScript</h3>
-  <div><i>**Currently In Beta**</i></div>
   <br />
   <p>
     JSMidi is a music production tool that works directly with your Digital Audio
@@ -34,9 +33,9 @@
 8. [Background and Inspiration](#background)
 9. [Contributing](#contributing)
 
-## Beta Release Notes <a name="beta-release"></a>
+## Release Notes <a name="beta-release"></a>
 
-The beta release has only been tested with Mac OSX and Logic Pro X. Garage Band also
+The initial release has only been tested with Mac OSX and Logic Pro X. Garage Band also
 works, but it only allows for a single MIDI track. I would welcome help adding documentation
 for Windows, Ableton, Pro Tools, or any other DAW that supports MIDI. I just don't have
 a Windows machine or another DAW to test with. But it should "just work" with the
