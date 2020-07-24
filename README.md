@@ -19,7 +19,7 @@
 
 ## Table of Contents
 
-1. [Beta Release Notes](#beta-release)
+1. [Release Notes](#release-notes)
 2. [Getting Started](#getting-started)
 3. [Overview Documentation](#jsmidi-overview)
   1. [JSMidi Project](#jsmidi-project)
@@ -33,13 +33,11 @@
 8. [Background and Inspiration](#background)
 9. [Contributing](#contributing)
 
-## Release Notes <a name="beta-release"></a>
+## Release Notes <a name="release-notes"></a>
 
-The initial release has only been tested with Mac OSX and Logic Pro X. Garage Band also
-works, but it only allows for a single MIDI track. I would welcome help adding documentation
-for Windows, Ableton, Pro Tools, or any other DAW that supports MIDI. I just don't have
-a Windows machine or another DAW to test with. But it should "just work" with the
-correct DAW and system MIDI configurations.
+The initial release was only tested with Mac OSX and Logic Pro X. We now have documentation for
+Windows and Ableton Live setup! Garage Band also works, but it only allows for a single MIDI track.
+I continue to welcome help adding additional documentation for other DAWs and/or other configuration options.
 
 ## Getting Started <a name="getting-started"></a>
 
