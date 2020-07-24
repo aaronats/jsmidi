@@ -1,11 +1,11 @@
 ## Getting Started Guide
 
-This guide is designed to get you started with JSMidi and Logic Pro X or
-Garage Band.
+This guide is designed to get you started with JSMidi and Logic Pro X,
+Garage Band or Ableton Live.
 
 ##### Requirements
 
-1. A Mac with Logic Pro X or Garage Band.
+1. A Mac with Logic Pro X or Garage Band or Windows with Ableton Live.
 2. [Node JS](https://nodejs.org) and [Node Package Manager](https://www.npmjs.com).
 3. [Atom Text Editor](https://atom.io).
 4. [JSMidi Atom Package](https://atom.io/packages/jsmidi-atom).
@@ -27,7 +27,7 @@ Finally make sure the option "Device is online" is checked in order to activate 
 <img src="assets/iac-bus-setup.png" width="400" alt="iac-bus-setup" />
 
 ### STEP 1: Audio Midi Setup for Windows
-First, we need to setup a virtual MIDI bus. Windows does not come with a native MIDI 
+First, we need to setup a virtual MIDI bus. Windows does not come with a native MIDI
 driver, so we will use [RTP loopMIDI](http://www.tobias-erichsen.de/software/loopmidi.html)  developed by Tobias Erichsen.
 
 [Download loopMIDI](http://www.tobias-erichsen.de/wp-content/uploads/2020/01/loopMIDISetup_1_0_16_27.zip) and install.
