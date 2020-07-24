@@ -11,7 +11,7 @@ Garage Band.
 4. [JSMidi Atom Package](https://atom.io/packages/jsmidi-atom).
 5. [JSMidi CLI](https://github.com/aaronats/jsmidi-cli).
 
-### STEP 1: Audio MIDI Setup
+### STEP 1: Audio MIDI Setup for Mac
 
 First, we need to enable the IAC Driver in the Audio MIDI Setup Utility (Open Spotlight
 and search for Audio MIDI Setup).
@@ -25,6 +25,24 @@ Next double-click the IAC Driver icon to open the properties window.
 Finally make sure the option "Device is online" is checked in order to activate it.
 
 <img src="assets/iac-bus-setup.png" width="400" alt="iac-bus-setup" />
+
+### STEP 1: Audio Midi Setup for Windows
+First, we need to setup a virtual MIDI bus. Windows does not come with a native MIDI 
+driver, so we will use [RTP loopMIDI](http://www.tobias-erichsen.de/software/loopmidi.html)  developed by Tobias Erichsen.
+
+[Download loopMIDI](http://www.tobias-erichsen.de/wp-content/uploads/2020/01/loopMIDISetup_1_0_16_27.zip) and install.
+
+Open loopMIDI. Enter a name for the 'new port name'and click the 'plus' icon to add the port.
+
+<img src="assets/loopMIDI-setup.png" width="400" alt="loop-midi-setup" />
+
+Once this is done, restart Ableton Live and the ports will appear and can be used to send or receive JSMidi.
+<img src="assets/ableton-windows-preferences.png" width="400" alt="ableton-windows-preferences"/>
+
+On a MIDI track, choose the new port the 'MIDI From' and add an instrument.
+
+<img src="assets/ableton-windows-midi-from.png" width="400" alt="ableton-widows-midi-from"/>
+
 
 ### STEP 2: Atom Setup
 
