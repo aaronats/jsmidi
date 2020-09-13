@@ -59,7 +59,7 @@ module.exports = class JSMidiEvent {
       }
 
       if (type === 'sustainon') {
-        return new JSMidiEvent('sustainoff', channel, { data: 64 });
+        return new JSMidiEvent('sustainoff', channel, { data: 64, velocity: 0 });
       }
     }
   }
