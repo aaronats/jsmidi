@@ -134,7 +134,7 @@ class JSMidi {
 
       if (type === 'sustainon') {
         this.scheduleEvent(
-          new JSMidiEvent('sustainoff', channel, { data: 64 })
+          new JSMidiEvent('sustainoff', channel, { data: 64, velocity: 0 })
         );
       }
     });
