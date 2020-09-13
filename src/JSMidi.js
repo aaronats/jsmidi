@@ -123,20 +123,22 @@ class JSMidi {
    * when the loop stops.
    */
   allOff () {
+    // Notes off.
     Object.keys(this.events).forEach(key => {
       const [channel, type, data] = key.split('|');
 
       if (type === 'noteon') {
-        this.scheduleEvent(
+        this.sendNow(
           new JSMidiEvent('noteoff', channel, { data })
         );
       }
+    });
 
-      if (type === 'sustainon') {
-        this.scheduleEvent(
-          new JSMidiEvent('sustainoff', channel, { data: 64, velocity: 0 })
-        );
-      }
+    // Sustains off.
+    Object.entries(this.tracks).forEach(([name, instrument]) => {
+      this.sendNow(
+        new JSMidiEvent('sustainoff', instrument.channel, { data: 64, velocity: 0 })
+      );
     });
   }
 
@@ -152,14 +154,14 @@ class JSMidi {
 
       // Notes off.
       notes.forEach(note => {
-        this.scheduleEvent(
+        this.sendNow(
           new JSMidiEvent('noteoff', instrument.channel, { data: note })
         );
       });
 
       // Sustain off.
-      this.scheduleEvent(
-        new JSMidiEvent('sustainoff', instrument.channel, { data: 64 })
+      this.sendNow(
+        new JSMidiEvent('sustainoff', instrument.channel, { data: 64, velocity: 0 })
       );
     });
   }
@@ -211,6 +213,12 @@ class JSMidi {
     if (event.hasDuration()) {
       const hold = event.calculateHold(this.loop);
       this.scheduleEvent(event.offEvent(), time + after + hold);
+    }
+  }
+
+  sendNow (event) {
+    if (this.io.output) {
+      this.io.output.send(event.message(), 0);
     }
   }
 
