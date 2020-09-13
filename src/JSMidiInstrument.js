@@ -190,7 +190,7 @@ module.exports = class JSMidiInstrument {
     const data = Tonal.Midi.toMidi(note);
 
     const event = new JSMidiEvent('noteoff', this.channel, {
-      data, velocity: 0, after: opts.after
+      data, velocity: 0, after: opts.after || 0
     });
 
     this._stageEvent(position, event);
@@ -202,11 +202,12 @@ module.exports = class JSMidiInstrument {
    * @param {String} position - loop position
    * @param {Object} options - event options
   */
-  sustainOn (position, opts) {
-    const { hold, after } = opts;
-
+  sustainOn (position, opts = {}) {
     const event = new JSMidiEvent('sustainon', this.channel, {
-      after, hold, data: 64, velocity: 127
+      data: 64,
+      velocity: 127,
+      after: opts.after || 0,
+      hold: opts.hold || 0
     });
 
     this._stageEvent(position, event);
@@ -220,7 +221,10 @@ module.exports = class JSMidiInstrument {
   */
   sustainOff (position, opts = {}) {
     const event = new JSMidiEvent('sustainoff', this.channel, {
-      data: 64, velocity: 0, after: opts.after
+      data: 64,
+      velocity: 0,
+      after: opts.after || 0,
+      hold: 0
     });
 
     this._stageEvent(position, event);
