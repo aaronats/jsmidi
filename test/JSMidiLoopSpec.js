@@ -519,7 +519,7 @@ describe('JSMidiLoop', function () {
 
       it('should return true when greater than the last position', function () {
         loop.disableRepeat();
-        [loop.part, loop.bar, loop.beat] = [2, 3, 1];
+        [loop.part, loop.bar, loop.beat] = [3, 2, 1];
         const res = loop._shouldStop();
 
         expect(res).to.eq(true);
