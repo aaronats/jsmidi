@@ -1,6 +1,6 @@
 {
   "name": "@jsmidi/core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "JSMidi is a library for live coding and producing music with JavaScript using a digital audio workstation like Logic Pro X, Ableton, Garage Band, etc.",
   "main": "index.js",
   "scripts": {
