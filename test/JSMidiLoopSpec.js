@@ -509,12 +509,12 @@ describe('JSMidiLoop', function () {
         expect(res).to.eq(false);
       });
 
-      it('should return false when not greater than the last position', function () {
+      it('should return true when is the last position', function () {
         loop.disableRepeat();
         [loop.part, loop.bar, loop.beat] = [2, 2, 8];
         const res = loop._shouldStop();
 
-        expect(res).to.eq(false);
+        expect(res).to.eq(true);
       });
 
       it('should return true when greater than the last position', function () {
